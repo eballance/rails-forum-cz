@@ -90,3 +90,5 @@ config/version.rb
 .ruby-version
 .ruby-gemset
 .rbenv
+
+config/database.yml
