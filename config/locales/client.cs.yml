@@ -59,6 +59,8 @@ cs:
           one:   "1r"
           few:   "%{count}r"
           other: "%{count}let"
+        date_month: "DD. MM."
+        date_year: "DD. MM. YYYY"
       medium:
         x_minutes:
           one: "1 minuta"
@@ -186,6 +188,26 @@ cs:
       "11": "Editace"
       "12": "Odeslané zprávy"
       "13": "Přijaté zprávy"
+
+    categories:
+      all: "all categories"
+      all_subcategories: "all subcategories"
+      no_subcategory: "no subcategory"
+      category: "Category"
+      posts: "New Posts"
+      topics: "New Topics"
+      latest: "Latest"
+      latest_by: "latest by"
+      toggle_ordering: "toggle ordering control"
+      subcategories: "Subcategories"
+      topic_stats: "The number of new topics."
+      topic_stat_sentence:
+        one: "%{count} new topic in the past %{unit}."
+        other: "%{count} new topics in the past %{unit}."
+      post_stats: "The number of new posts."
+      post_stat_sentence:
+        one: "%{count} new post in the past %{unit}."
+        other: "%{count} new posts in the past %{unit}."
 
     user:
       said: "uživatel {{username}} řekl:"
@@ -773,6 +795,11 @@ cs:
           one: Máte označen <b>1</b> příspěvek.
           few: "Máte označeny <b>{{count}}</b> příspěvky."
           other: "Máte označeno <b>{{count}}</b> příspěvků."
+
+      flag_topic:
+        title: 'Flag'
+        help: 'privately flag this topic for attention or send a private notification about it'
+        success_message: 'You successfully flagged this topic.'
 
     post:
       reply: "Odpovídáte na {{link}} od {{replyAvatar}} {{username}}"
