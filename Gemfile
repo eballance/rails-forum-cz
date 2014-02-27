@@ -108,6 +108,7 @@ gem 'oj'
 gem 'pg'
 gem 'rake'
 
+gem 'capistrano'
 
 gem 'rest-client'
 gem 'rinku'
