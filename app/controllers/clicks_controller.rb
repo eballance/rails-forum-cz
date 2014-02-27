@@ -10,6 +10,10 @@ class ClicksController < ApplicationController
       @redirect_url = TopicLinkClick.create_from(params)
     end
 
+    if !params[:url].blank? && @redirect_url.blank?
+      @redirect_url = params[:url]
+    end
+
     # Sometimes we want to record a link without a 302. Since XHR has to load the redirected
     # URL we want it to not return a 302 in those cases.
     if params[:redirect] == 'false' || @redirect_url.blank?
@@ -21,9 +25,9 @@ class ClicksController < ApplicationController
 
   private
 
-    def track_params
-      params.require(:url)
-      params.permit(:url, :post_id, :topic_id, :redirect)
-    end
+  def track_params
+    params.require(:url)
+    params.permit(:url, :post_id, :topic_id, :redirect)
+  end
 
 end

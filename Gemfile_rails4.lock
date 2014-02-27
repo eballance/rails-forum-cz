@@ -184,8 +184,12 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.1.4)
-    celluloid (0.14.1)
-      timers (>= 1.0.0)
+    capistrano (3.1.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
     certified (0.1.1)
     clockwork (0.5.3)
       activesupport (~> 4.0.0)
@@ -442,10 +446,15 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    temple (0.6.5)
-    terminal-notifier-guard (1.5.3)
-    therubyracer (0.11.4)
-      libv8 (~> 3.11.8.12)
+    sshkit (1.3.0)
+      net-scp (>= 1.1.2)
+      net-ssh
+      term-ansicolor
+    temple (0.6.7)
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
       ref
     thin (1.5.1)
       daemons (>= 1.0.9)
@@ -457,7 +466,8 @@ GEM
     tilt (1.4.1)
     timecop (0.6.2.2)
     timers (1.1.0)
-    treetop (1.4.14)
+    tins (0.13.1)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
@@ -480,6 +490,7 @@ DEPENDENCIES
   barber
   better_errors
   binding_of_caller
+  capistrano
   certified
   clockwork
   diffy (>= 3.0)
