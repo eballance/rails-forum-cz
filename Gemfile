@@ -119,7 +119,7 @@ gem 'oj'
 gem 'pg', '0.15.1'
 gem 'rake'
 
-gem 'capistrano', '2.15.5'
+gem 'capistrano', '2.13.5'
 
 gem 'rest-client'
 gem 'rinku'
