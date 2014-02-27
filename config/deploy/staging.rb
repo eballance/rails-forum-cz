@@ -8,7 +8,7 @@ set :root_domain, ""
 set :branch, "master"
 
 set :deploy_to, "/home/#{user}/web"
-set :rails_env, "production"
+set :rails_env, "staging"
 
 set :default_environment, {
   "PATH" => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"

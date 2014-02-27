@@ -184,7 +184,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.1.4)
-    capistrano (2.15.5)
+    capistrano (2.13.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -493,7 +493,7 @@ DEPENDENCIES
   barber
   better_errors
   binding_of_caller
-  capistrano (= 2.15.5)
+  capistrano (= 2.13.5)
   certified
   clockwork
   diffy (>= 3.0)
