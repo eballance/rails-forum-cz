@@ -1,0 +1,27 @@
+<%= shared_path %>/log/<%= rails_env %>.log
+<%= shared_path %>/log/*_errors.log
+<%= shared_path %>/log/sidekiq.log
+<%= shared_path %>/log/*.output
+{
+  su <%= user %> <%= user %>
+  weekly
+  missingok
+  rotate 8
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+}
+
+<%= shared_path %>/log/access.log
+<%= shared_path %>/log/error.log
+{
+  su nginx nginx
+  weekly
+  missingok
+  rotate 8
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+}

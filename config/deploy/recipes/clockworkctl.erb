@@ -1,0 +1,76 @@
+#!/bin/bash
+SERVICE=clockwork
+USERNAME="<%= user %>"
+SCRIPT_NAME=clockworkctl
+APP_PATH=/home/$USERNAME/web/current
+CONFPATH=$APP_PATH/config/clock.rb
+PIDDIR=$APP_PATH/tmp/pids
+LOGDIR=$APP_PATH/log
+
+ME=`whoami`
+as_user() {
+  if [ "$ME" == "$USERNAME" ] ; then
+    bash -c "$1"
+  else
+    su - $USERNAME -c "$1"
+  fi
+}
+
+clockwork_invoke() {
+if ps ax | grep -v grep | grep -i " clockworkd.$USERNAME " > /dev/null
+then
+    echo "Tried to start but $SERVICE was already running!"
+else
+    echo "$SERVICE was not running... starting."
+    as_user "cd $APP_PATH && RAILS_ENV=<%= rails_env %> bundle exec clockworkd start -c $CONFPATH --log --log-dir $LOGDIR --pid-dir $PIDDIR --identifier $USERNAME"
+    sleep 7
+if ps ax | grep -v grep | grep -i " clockworkd.$USERNAME " > /dev/null
+    then
+            echo "$SERVICE is now running."
+        else
+            echo "Could not start $SERVICE."
+        fi
+fi
+}
+
+clockwork_kill() {
+if ps ax | grep -v grep | grep -i " clockworkd.$USERNAME " > /dev/null
+then
+    echo "$SERVICE is running...stopping"
+    as_user "cd $APP_PATH && bundle exec clockworkd stop -c $CONFPATH --log --log-dir $LOGDIR --pid-dir $PIDDIR --identifier $USERNAME"
+    sleep 7
+else
+    echo "$SERVICE was not running."
+fi
+if ps ax | grep -v grep | grep -i " clockworkd.$USERNAME " > /dev/null
+then
+    echo "$SERVICE could not be shut down... still running."
+else
+    echo "$SERVICE is shut down."
+fi
+}
+
+case "$1" in
+start)
+clockwork_invoke
+;;
+stop)
+clockwork_kill
+;;
+restart)
+clockwork_kill
+clockwork_invoke
+;;
+status)
+if ps ax | grep -v grep | grep -i " clockworkd.$USERNAME " > /dev/null
+then
+    echo "$SERVICE is running."
+else
+    echo "$SERVICE is not running."
+fi
+;;
+*)
+echo "Usage: $SCRIPT_NAME {start|stop|status|restart}"
+exit 3
+;;
+esac
