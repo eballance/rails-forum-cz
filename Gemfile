@@ -177,8 +177,8 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'librarian', '>= 0.0.25', require: false
-  # https://github.com/ctran/annotate_models/pull/106
-  gem 'annotate', :git => 'https://github.com/SamSaffron/annotate_models.git'
+  gem 'annotate'
+  gem 'letter_opener'
 end
 
 

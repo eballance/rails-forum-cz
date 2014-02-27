@@ -269,8 +269,12 @@ GEM
     json (1.8.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    kgio (2.8.0)
-    librarian (0.1.0)
+    kgio (2.8.1)
+    launchy (2.4.2)
+      addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
+    librarian (0.1.1)
       highline
       thor (~> 0.15)
     libv8 (3.11.8.17)
@@ -514,6 +518,7 @@ DEPENDENCIES
   hiredis
   image_optim
   image_sorcery
+  letter_opener
   librarian (>= 0.0.25)
   listen
   lru_redux
