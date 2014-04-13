@@ -8,20 +8,21 @@
   width: 100%;
   tr {text-align: left;}
   td, th {padding: 8px;}
-  th {border-top: 1px solid $primary_lighter;}
-  td {border-bottom: 1px solid $primary_lighter; border-top: 1px solid $primary_lighter;}
-  tr:hover { background-color: darken($secondary, 2.5%); }
-  tr.selected { background-color: lighten($tertiary, 58%); }
+  th {border-top: 1px solid $primary_border_color;}
+  td {border-bottom: 1px solid $primary_border_color; border-top: 1px solid $primary_border_color;}
+  tr:hover { background-color: darken($primary_background_color, 2.5%); }
+  tr.selected { background-color: lighten($tertiary_background_color, 58%); }
+  .filters input { margin-bottom: 0; }
 }
 
 .content-list li a span.count {
   font-size: 12px;
   float: right;
   margin-right: 10px;
-  background-color: $primary_lightest;
+  background-color: lighten($secondary_background_color, 76%);
   padding: 2px 5px;
   border-radius: 5px;
-  color: $primary_medium;
+  color: $secondary_text_color;
 }
 
 .admin-content {
@@ -29,16 +30,13 @@
   .admin-contents {
     padding: 8px;
 
-    p {
-      margin-left: 6px;
-    }
-
     .ace-wrapper {
       height: 400px;
     }
   }
 
   table.report {
+    margin-top: 20px;
     tr {
       th:nth-of-type(1) {
         width: 20%;
@@ -54,11 +52,11 @@
 
       .bar {
         margin-top: 5px;
-        background-color: $tertiary;
+        background-color: $emphasis_text_color;
         display: inline-block;
         text-align: right;
         padding-right: 8px;
-        color: $secondary;
+        color: $tertiary_text_color;
       }
     }
   }
@@ -67,13 +65,13 @@
 .admin-loading {
   width: 100px;
   margin: 0 auto 30px auto;
-  background-color: $primary;
+  background-color: $secondary_background_color;
   @include border-radius-all(10px);
   padding: 10px 10px 10px 30px;
   font-size: 15px;
   line-height: 23px;
   text-align: center;
-  color: $secondary;
+  color: $tertiary_text_color;
   background: {
     image: image-url("spinner_96_w.gif");
     repeat: no-repeat;
@@ -87,18 +85,16 @@
 }
 
 .admin-controls {
-  @include border-radius-all(5px);
-  background-color: darken($secondary, 5%);
-  border: 1px solid darken($secondary, 10%);
-  padding: 10px 10px 3px 0px;
+  background-color: darken($primary_background_color, 5%);
+  padding: 10px 10px 3px 0;
   height: 35px;
   .nav.nav-pills {
     li.active {
       a {
-        border-color: darken($primary_medium, 10%);
-        background-color: $primary_medium;
+        border-color: darken($primary_border_color, 10%);
+        background-color: $tertiary_background_color;
         &:hover {
-          background-color: $primary_medium;
+          background-color: $tertiary_background_color;
         }
       }
     }
@@ -106,14 +102,14 @@
   h1 {
     font-size: 20px;
     line-height: 25px;
-    color: $primary_medium;
+    color: $secondary_text_color;
   }
   .controls {
     margin-left: 10px;
   }
   button {
     margin-right: 5px;
-    margin-left: 5px;
+
   }
   input[type=text] {
     display: inline-block;
@@ -152,12 +148,12 @@
 
 .site-settings-nav {
   width: 200px;
-  margin-top: 40px;
+  margin-top: 30px;
   .nav-stacked {
     border-right: none;
   }
   li a.active {
-    color: $secondary;
+    color: $tertiary_text_color;
     background-color: $nav-stacked-background-color-active;
   }
 }
@@ -198,10 +194,46 @@
       @include medium-width { width: 314px; }
       @include small-width  { width: 284px; }
     }
+    .input-setting-list {
+      width: 408px;
+      padding: 1px;
+      background-color: white;
+      border: 1px solid #e6e6e6;
+      border-radius: 3px;
+      box-shadow: inset 0 1px 1px rgba(51, 51, 51, 0.3);
+      -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+      transition: border linear 0.2s, box-shadow linear 0.2s;
+
+      .list-input-item {
+        width: 90px;
+        margin: 2px 1px;
+        background-color: white;
+        border: 1px solid #e6e6e6;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 1px rgba(51, 51, 51, 0.3);
+        -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+        transition: border linear 0.2s, box-shadow linear 0.2s;
+
+        &:focus {
+          border-color: #00aaff;
+          outline: 0;
+          box-shadow: inset 0 1px 1px rgba(51, 51, 51, 0.3), 0 0 8px #00aaff;
+        }
+      }
+
+      .btn.list-add-value {
+        margin: 0px 3px;
+        padding: 4px 10px;
+        color: $link-color;
+      }
+    }
+
 
     .desc {
       padding-top: 3px;
-      color: darken($secondary, 40%);
+      color: $secondary_text_color;
+      font-size: 80%;
+      line-height: 1.4em;
     }
 
     h3 {
@@ -212,11 +244,11 @@
 
   .setting.overridden {
     input[type=text] {
-      background-color: lighten($highlight, 40%);
+      background-color: lighten($highlight_background_color, 40%);
     }
 
     h3 {
-      color: darken($highlight, 30%);
+      color: darken($highlight_text_color, 30%);
     }
   }
 }
@@ -224,21 +256,21 @@
 section.details {
   h1 {
     font-size: 15px;
-    background-color: $primary_light;
-    color: $secondary;
+    background-color: lighten($secondary_background_color, 50%);
+    color: $tertiary_text_color;
     padding: 0 10px;
-    margin: 0px 0 5px 0;
+    margin: 0 0 5px 0;
   }
 }
 
 #selected-controls {
-  background-color: lighten($tertiary, 50%);
+  background-color: lighten($emphasis_background_color, 50%);
   padding: 8px;
   min-height: 27px;
   position: fixed;
   bottom: 0;
   width: 1075px;
-  border: 1px solid lighten($tertiary, 45%);
+  border: 1px solid lighten($emphasis_border_color, 45%);
 }
 
 .display-row {
@@ -248,9 +280,9 @@ section.details {
     border-top: 0;
   }
   &.highlight-danger {
-    background-color: $highlight_danger_light;
+    background-color: $warning_background_color;
   }
-  border-top: 1px solid $primary_lighter;
+  border-top: 1px solid $primary_border_color;
   &:before, &:after {
     display: table;
     content: "";
@@ -281,11 +313,54 @@ section.details {
   }
 
   .controls {
-    width: 600px;
+    width: 480px;
     float: left;
     margin-left: 12px;
     .btn {
       margin-right: 5px;
+    }
+  }
+}
+
+// Badges area
+.badges {
+  .content-list ul {
+    margin-bottom: 10px;
+  }
+
+  .current-badge {
+    margin: 20px;
+  }
+
+  .form-horizontal {
+    label {
+      font-weight: bold;
+    }
+    & > div {
+      margin-top: 10px;
+    }
+    .delete-link {
+      margin-left: 15px;
+      margin-top: 5px;
+    }
+
+    input, textarea, select {
+      width: 350px;
+    }
+
+    textarea {
+      height: 200px;
+    }
+  }
+
+  .buttons {
+    float: left;
+    width: 200px;
+    .saving {
+      padding: 5px 0 0 0;
+      margin-left: 10px;
+      width: 80px;
+      color: $secondary_text_color;
     }
   }
 }
@@ -307,7 +382,7 @@ section.details {
       margin-top: 5px;
     }
     .preview-link {
-      margin-left: 30px;
+      margin-left: 15px;
     }
     padding-left: 10px;
     width: 65%;
@@ -332,7 +407,7 @@ section.details {
       float: right;
       margin-top: 7px;
       span {
-        margin-right: 20px;
+        margin-right: 10px;
       }
     }
     .buttons {
@@ -342,7 +417,7 @@ section.details {
         padding: 5px 0 0 0;
         margin-left: 10px;
         width: 80px;
-        color: $primary_medium;
+        color: $secondary_text_color;
       }
     }
   }
@@ -352,10 +427,10 @@ section.details {
 .admin-flags {
 
   tr.hidden-post td.excerpt { opacity: 0.4;  }
-  tr.deleted td.excerpt { opacity: 0.8; background-color: $highlight_danger_light; }
+  tr.deleted td.excerpt { opacity: 0.8; background-color: $warning_background_color; }
   td.message {
     padding: 4px 8px;
-    background-color: $highlight_light;
+    background-color: $highlight_background_color;
   }
   td { vertical-align: top; }
   th { text-align: left; }
@@ -435,13 +510,13 @@ section.details {
   }
 
   .up-to-date {
-    color: $success;
+    color: $success_text_color;
   }
   .updates-available {
-    color: $highlight_danger;
+    color: $warning_text_color;
   }
   .critical-updates-available {
-    color: $highlight_danger;
+    color: $warning_text_color;
   }
 }
 
@@ -484,24 +559,24 @@ table.api-keys {
 
     .title {
       i.fa {
-        color: $primary;
+        color: $primary_text_color;
       }
     }
 
     th {
       font-weight: normal;
       text-align: center;
-      background-color: $primary_lightest;
+      background-color: lighten($secondary_background_color, 76%);
     }
     th.title {
       text-align: left;
     }
     thead {
       tr:hover > td {
-        background-color: $secondary;
+        background-color: $primary_background_color;
       }
       tr:hover > th {
-        background-color: $primary_lighter;
+        background-color: lighten($secondary_background_color, 60%);
       }
     }
 
@@ -514,13 +589,13 @@ table.api-keys {
       }
 
       &.trending-up {
-        color: $success;
+        color: $success_text_color;
         i.up {
           display: inline;
         }
       }
       &.trending-down {
-        color: $highlight_danger;
+        color: $warning_text_color;
         i.down {
           display: inline;
         }
@@ -536,26 +611,26 @@ table.api-keys {
 
   &.detected-problems {
     @include border-radius-all(5px);
-    background-color: $primary_lightest;
-    border: 1px solid $primary_lighter;
+    background-color: lighten($secondary_background_color, 76%);
+    border: 1px solid $primary_border_color;
     margin-bottom: 20px;
     margin-top: 10px;
-    box-shadow: inset 0 0 10px $primary_lighter;
+    box-shadow: inset 0 0 10px rgba($primary_border_color, .4);
 
     .look-here {
       float: left;
-      margin: 20px 20px 0 20px;
+      margin: 20px 10px 0 10px;
 
       .fa {
         font-size: 32px;
         vertical-align: middle;
-        color: $primary_medium;
+        color: $secondary_text_color
       }
     }
 
     .problem-messages {
       float: left;
-      width: 355px;
+      width: 395px;
       a {
         text-decoration: underline;
       }
@@ -563,10 +638,13 @@ table.api-keys {
         text-align: right;
       }
       .btn {
-        background-color: $primary_lighter;
+        background-color: lighten($secondary_background_color, 60%);
       }
-    }
+      ul {
+        margin-left: 0;
+      }
   }
+}
 
   &.totals {
     table {
@@ -583,9 +661,9 @@ table.api-keys {
   }
 
   &.trust-levels {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     table {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
     td.value {
       width: 45px;
@@ -601,7 +679,7 @@ table.api-keys {
 
 
 .commits-widget {
-  border: solid 1px $primary_lighter;
+  border: solid 1px $primary_border_color;
   width: 500px;
   height: 180px;
   margin-bottom: 36px;
@@ -621,7 +699,7 @@ table.api-keys {
     list-style: none;
   }
   a {
-    color: $primary;
+    color: $primary_text_color;
     text-decoration: none;
   }
   a:hover {
@@ -629,11 +707,11 @@ table.api-keys {
   }
 
   .header {
-    color: $primary;
+    color: $primary_text_color;
     font-weight: bold;
     height: 30px;
-    border-bottom: solid 1px $primary_lighter;
-    background: $primary_lightest;
+    border-bottom: solid 1px $primary_border_color;
+    background-color: lighten($secondary_background_color, 60%);
     cursor: pointer;
 
     h1 {
@@ -656,8 +734,8 @@ table.api-keys {
       @extend .clearfix;
       line-height: 1.0em;
       padding: 6px 8px;
-      border-bottom: solid 1px $primary_lighter;
-      background: $primary_lightest;
+      border-bottom: solid 1px $primary_border_color;
+    background-color: lighten($secondary_background_color, 76%);
       .left {
         float: left;
       }
@@ -667,25 +745,25 @@ table.api-keys {
 
       img {
         margin-top: 2px;
-        border: solid 1px $primary_lighter;
+        border: solid 1px $primary_border_color;
         padding: 2px;
-        background-color: $secondary;
+        background-color: $primary_background_color;
       }
 
       .commit-message {
-        color: $primary;
+        color: $primary_text_color;
         font-size: 12px;
         font-weight: bold;
       }
 
       .commit-meta {
-        color: $primary_medium;
+        color: $secondary_text_color;
         font-size: 12px;
       }
 
       .committer-name {
         font-weight: bold;
-        color: $primary;
+        color: $primary_text_color;
       }
     }
     li:last-child {
@@ -698,18 +776,18 @@ table.api-keys {
     width: 6px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: $primary_lighter;
+    background-color: lighten($secondary_background_color, 60%);
     -webkit-border-radius: 3px;
   }
   ::-webkit-scrollbar-track {
-    border-left: solid 1px $primary_lighter;
+    border-left: solid 1px $primary_border_color;
   }
 }
 
 .content-list {
 
   h3 {
-    color: $primary_medium;
+    color: $primary_text_color;
     font-size: 15px;
     padding-left: 5px;
   }
@@ -719,22 +797,22 @@ table.api-keys {
     margin: 0;
 
     li {
-      border-bottom: 1px solid $primary_lighter;
+      border-bottom: 1px solid $primary_border_color;
     }
 
     li a {
       display: block;
       padding: 10px;
-      color: $primary_medium;
+      color: $primary_text_color;
 
       &:hover {
         background-color: #eee;
-        color: $primary_medium;
+        color: $primary_text_color;
       }
 
       &.active {
         font-weight: bold;
-        color: $primary;
+        color: $primary_text_color;
       }
     }
   }
@@ -750,7 +828,7 @@ table.api-keys {
   margin-left: 20px;
 
   p.description {
-    color: $primary_medium;
+    color: $secondary_text_color;
   }
 
   .controls {
@@ -885,13 +963,16 @@ table.api-keys {
   margin: 0 0 20px 6px;
   a.filter {
     display: inline-block;
-    background-color: $primary_lighter;
+    background-color: lighten($secondary_background_color, 60%);
     padding: 3px 10px;
     border-radius: 3px;
-    margin-left: 5px;
-    color: $primary;
+
+    color: $primary_text_color;
     &:hover {
-      color: $link-color-hover;
+      color: $primary_text_color;
+      background-color: lighten($secondary_background_color, 76%);
+
+
     }
     .label {
       font-weight: bold;
@@ -918,12 +999,12 @@ table.api-keys {
 }
 
 .staff-actions, .screened-emails, .screened-urls, .screened-ip-addresses {
-  margin-left: 5px;
-  border-bottom: dotted 1px $primary_lighter;
+
+  border-bottom: dotted 1px $primary_border_color;
 
   .heading-container {
     width: 100%;
-    background-color: $primary_lightest;
+    background-color: lighten($secondary_background_color, 76%);
   }
   .col.heading {
     font-weight: bold;
@@ -936,13 +1017,10 @@ table.api-keys {
     overflow-y: auto;
     overflow-x: hidden;
   }
-  .col.first {
-    margin-left: 5px;
-  }
 
   .ember-list-item-view {
     width: 100%;
-    border-top: solid 1px $primary_lighter;
+    border-top: solid 1px $primary_border_color;
   }
 }
 
@@ -954,10 +1032,10 @@ table.api-keys {
 
 .leader-requirements {
   .fa-check {
-    color: $success;
+    color: $success_text_color;
   }
   .fa-times {
-    color: $highlight_danger;
+    color: $warning_text_color;
   }
 }
 
@@ -969,7 +1047,7 @@ $rollback-dark: darken($rollback, 10%) !default;
 $rollback-darker: darken($rollback, 20%) !default;
 
 .btn-rollback {
-  color: $secondary;
+  color: $tertiary_text_color;
   background: $rollback;
   &:hover {
     background: $rollback-dark;
@@ -985,4 +1063,26 @@ $rollback-darker: darken($rollback, 20%) !default;
 .admin-backups-logs {
   max-height: 500px;
   overflow: auto;
+}
+
+
+button.ru {
+  position: relative;
+  min-width: 110px;
+}
+
+.ru-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(0, 175, 0, 0.3);
+}
+
+.is-uploading:hover .ru-progress {
+  background: rgba(200, 0, 0, 0.3);
+}
+
+.invisible {
+  visibility: hidden;
 }

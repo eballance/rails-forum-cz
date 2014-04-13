@@ -33,6 +33,22 @@ module Middleware::UnicornOobgc
   # TUNE ME, for Discourse this number is good
   MIN_FREE_SLOTS = 50_000
 
+  # The oobgc implementation is far more efficient in 2.1
+  # as we have a bunch of profiling hooks to hook it
+  # use @tmm1s implementation
+  def use_gctools?
+    if @use_gctools.nil?
+      @use_gctools =
+        if RUBY_VERSION >= "2.1.0"
+          require "gctools/oobgc"
+          true
+        else
+          false
+        end
+    end
+    @use_gctools
+  end
+
   def verbose(msg=nil)
     @verbose ||= ENV["OOBGC_VERBOSE"] == "1" ? :true : :false
     if @verbose == :true
@@ -59,6 +75,13 @@ module Middleware::UnicornOobgc
   end
 
   def process_client(client)
+
+    if use_gctools?
+      super(client)
+      GC::OOB.run
+      return
+    end
+
     stat = GC.stat
 
     @num_requests ||= 0
@@ -83,12 +106,12 @@ module Middleware::UnicornOobgc
       @max_delta ||= delta
 
       if delta > @max_delta
-        new_delta = (delta * 1.5).to_i
+        new_delta = (@max_delta * 1.5).to_i
         @max_delta = [new_delta, delta].min
       else
         # this may seem like a very tiny decay rate, but some apps using caching
         # can really mess stuff up, if our delta is too low the algorithm fails
-        new_delta = (delta * 0.995).to_i
+        new_delta = (@max_delta * 0.99).to_i
         @max_delta = [new_delta, delta].max
       end
 

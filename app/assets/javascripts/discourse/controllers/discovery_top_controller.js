@@ -7,10 +7,15 @@
   @module Discourse
 **/
 Discourse.DiscoveryTopController = Discourse.DiscoveryController.extend({
+  needs: ['discovery'],
 
   actions: {
     refresh: function() {
       var self = this;
+
+      // Don't refresh if we're still loading
+      if (this.get('controllers.discovery.loading')) { return; }
+
       this.send('loading');
       Discourse.TopList.find().then(function(top_lists) {
         self.set('model', top_lists);
@@ -18,21 +23,6 @@ Discourse.DiscoveryTopController = Discourse.DiscoveryController.extend({
       });
     }
   },
-
-  redirectedToTopPageReason: function() {
-    // no need for a reason if the default homepage is 'top'
-    if (Discourse.Utilities.defaultHomepage() === 'top') { return null; }
-    // check if the user is authenticated
-    if (Discourse.User.current()) {
-      if (Discourse.User.currentProp('trust_level') === 0) {
-        return I18n.t('filters.top.redirect_reasons.new_user');
-      } else if (!Discourse.User.currentProp('hasBeenSeenInTheLastMonth')) {
-        return I18n.t('filters.top.redirect_reasons.not_seen_in_a_month');
-      }
-    }
-    // no reason detected
-    return null;
-  }.property(),
 
   hasDisplayedAllTopLists: Em.computed.and('content.yearly', 'content.monthly', 'content.weekly', 'content.daily')
 });

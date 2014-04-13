@@ -43,7 +43,8 @@ class IncomingLink < ActiveRecord::Base
   # Internal: Extract the domain from link.
   def extract_domain
     if referer.present?
-      self.domain = URI.parse(self.referer).host
+      # We may get a junk URI, just deal with it
+      self.domain = URI.parse(self.referer).host rescue nil
       self.referer = nil unless self.domain
     end
   end
@@ -103,8 +104,8 @@ end
 #  domain          :string(100)
 #  topic_id        :integer
 #  post_number     :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  created_at      :datetime
+#  updated_at      :datetime
 #  user_id         :integer
 #  ip_address      :inet
 #  current_user_id :integer

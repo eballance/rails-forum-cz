@@ -103,7 +103,7 @@ class Invite < ActiveRecord::Base
         filter: "%#{email_or_username.downcase}%"
       )
     else
-      rails4? ? all : scoped
+      all
     end
   end
 
@@ -127,8 +127,8 @@ end
 #  invited_by_id  :integer          not null
 #  user_id        :integer
 #  redeemed_at    :datetime
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  created_at     :datetime
+#  updated_at     :datetime
 #  deleted_at     :datetime
 #  deleted_by_id  :integer
 #  invalidated_at :datetime

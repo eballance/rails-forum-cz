@@ -23,6 +23,11 @@ class SiteSetting < ActiveRecord::Base
     load_settings(file)
   end
 
+  client_settings << :available_locales
+
+  def self.available_locales
+    LocaleSiteSetting.values.map{ |e| e[:value] }.join('|')
+  end
 
   def self.call_discourse_hub?
     self.enforce_global_nicknames? && self.discourse_org_access_key.present?
@@ -93,6 +98,13 @@ class SiteSetting < ActiveRecord::Base
     use_https? ? "https" : "http"
   end
 
+  def self.has_enough_topics_to_redirect_to_top
+    Topic.listable_topics
+         .visible
+         .where('topics.id NOT IN (SELECT COALESCE(topic_id, 0) FROM categories)')
+         .count > SiteSetting.topics_per_period_in_top_page
+  end
+
 end
 
 # == Schema Information
@@ -103,7 +115,6 @@ end
 #  name       :string(255)      not null
 #  data_type  :integer          not null
 #  value      :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  created_at :datetime
+#  updated_at :datetime
 #
-

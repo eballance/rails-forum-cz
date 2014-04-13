@@ -45,7 +45,7 @@ describe PrettyText do
   describe "rel nofollow" do
     before do
       SiteSetting.stubs(:add_rel_nofollow_to_user_content).returns(true)
-      SiteSetting.stubs(:exclude_rel_nofollow_domains).returns("foo.com,bar.com")
+      SiteSetting.stubs(:exclude_rel_nofollow_domains).returns("foo.com|bar.com")
     end
 
     it "should inject nofollow in all user provided links" do
@@ -92,6 +92,10 @@ describe PrettyText do
         PrettyText.excerpt("<img src='http://cnn.com/a.gif' title='car'>", 100, markdown_images: true).should == "![car](http://cnn.com/a.gif)"
       end
 
+      it "should keep spoilers" do
+        PrettyText.excerpt("<div class='spoiler'><img src='http://cnn.com/a.gif'></div>", 100).should == "<span class='spoiler'>[image]</span>"
+        PrettyText.excerpt("<span class='spoiler'>spoiler</div>", 100).should == "<span class='spoiler'>spoiler</span>"
+      end
     end
 
     it "should have an option to strip links" do

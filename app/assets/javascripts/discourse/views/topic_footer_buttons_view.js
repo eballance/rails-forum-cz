@@ -21,17 +21,19 @@ Discourse.TopicFooterButtonsView = Discourse.ContainerView.extend({
     if (Discourse.User.current()) {
       if (!topic.get('isPrivateMessage')) {
         // We hide some controls from private messages
-        if (this.get('topic.details.can_invite_to')) {
+        if (this.get('topic.details.can_invite_to') && !this.get('topic.category.read_restricted')) {
           this.attachViewClass(Discourse.InviteReplyButton);
         }
         this.attachViewClass(Discourse.StarButton);
         this.attachViewClass(Discourse.ShareButton);
-        this.attachViewClass(Discourse.ClearPinButton);
         if (this.get('topic.details.can_flag_topic')) {
           this.attachViewClass(Discourse.FlagTopicButton);
         }
       }
-      this.attachViewClass(Discourse.ReplyButton);
+      if (this.get('topic.details.can_create_post')) {
+        this.attachViewClass(Discourse.ReplyButton);
+      }
+      this.attachViewClass(Discourse.PinnedButton);
       this.attachViewClass(Discourse.NotificationsButton);
 
       this.trigger('additionalButtons', this);

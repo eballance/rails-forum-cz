@@ -8,7 +8,7 @@ module JsLocaleHelper
     # load plugins translations
     plugin_translations = {}
     Dir["#{Rails.root}/plugins/*/config/locales/client.#{locale_str}.yml"].each do |file|
-      plugin_translations.merge! YAML::load(File.open(file))
+      plugin_translations.deep_merge! YAML::load(File.open(file))
     end
     # merge translations (plugin translations overwrite default translations)
     translations[locale_str]['js'].deep_merge!(plugin_translations[locale_str]['js']) if translations[locale_str] && plugin_translations[locale_str] && plugin_translations[locale_str]['js']
@@ -43,7 +43,7 @@ module JsLocaleHelper
   end
 
   def self.moment_format_function(name)
-    format = I18n.t("dates." << name)
+    format = I18n.t("dates.#{name}")
     result = "moment.fn.#{name.camelize(:lower)} = function(){ return this.format('#{format}'); };\n"
   end
 
@@ -96,13 +96,13 @@ module JsLocaleHelper
   end
 
   def self.strip_out_message_formats!(hash, prefix = "", rval = {})
-    if Hash === hash
-      hash.each do |k,v|
-        if Hash === v
-          rval.merge!(strip_out_message_formats!(v, prefix + (prefix.length > 0 ? "." : "") << k, rval))
-        elsif k.to_s().end_with?("_MF")
-          rval[prefix + (prefix.length > 0 ? "." : "") << k] = v
-          hash.delete(k)
+    if hash.is_a?(Hash)
+      hash.each do |key, value|
+        if value.is_a?(Hash)
+          rval.merge!(strip_out_message_formats!(value, prefix + (prefix.length > 0 ? "." : "") << key, rval))
+        elsif key.to_s.end_with?("_MF")
+          rval[prefix + (prefix.length > 0 ? "." : "") << key] = value
+          hash.delete(key)
         end
       end
     end

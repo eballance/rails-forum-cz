@@ -67,6 +67,10 @@ Discourse.TopicRoute = Discourse.Route.extend({
       Discourse.Route.showModal(this, 'splitTopic', this.modelFor('topic'));
     },
 
+    changeOwner: function() {
+      Discourse.Route.showModal(this, 'changeOwner', this.modelFor('topic'));
+    },
+
     // Use replaceState to update the URL once it changes
     postChangedRoute: Discourse.debounce(function(currentPost) {
       // do nothing if we are transitioning to another route
@@ -87,6 +91,10 @@ Discourse.TopicRoute = Discourse.Route.extend({
   model: function(params) {
     var currentModel = this.modelFor('topic');
     if (currentModel && (currentModel.get('id') === parseInt(params.id, 10))) {
+      // If we've recovered the currentModel (for example, hitting the forward button and we
+      // popped it off the state), get rid of the `loaded` attribute we set when the back
+      // button was hit.
+      currentModel.set('postStream.loaded', true);
       return currentModel;
     }
     return Discourse.Topic.create(params);

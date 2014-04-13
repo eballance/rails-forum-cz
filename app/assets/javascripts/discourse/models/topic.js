@@ -68,7 +68,7 @@ Discourse.Topic = Discourse.Model.extend({
   // Helper to build a Url with a post number
   urlForPostNumber: function(postNumber) {
     var url = this.get('url');
-    if (postNumber && (postNumber > 1)) {
+    if (postNumber && (postNumber > 0)) {
       if (postNumber >= this.get('highest_post_number')) {
         url += "/last";
       } else {
@@ -90,6 +90,10 @@ Discourse.Topic = Discourse.Model.extend({
   lastPostUrl: function() {
     return this.urlForPostNumber(this.get('highest_post_number'));
   }.property('url', 'highest_post_number'),
+
+  firstPostUrl: function () {
+    return this.urlForPostNumber(1);
+  }.property('url'),
 
   lastPosterUrl: function() {
     return Discourse.getURL("/users/") + this.get("last_poster.username");
@@ -114,25 +118,6 @@ Discourse.Topic = Discourse.Model.extend({
     return this.get('new_posts');
   }.property('new_posts', 'id'),
 
-  // The coldmap class for the age of the topic
-  ageCold: function() {
-    var createdAt, daysSinceEpoch, lastPost, lastPostDays, nowDays;
-    if (!(createdAt = this.get('created_at'))) return;
-    if (!(lastPost = this.get('last_posted_at'))) lastPost = createdAt;
-    daysSinceEpoch = function(dt) {
-      // 1000 * 60 * 60 * 24 = days since epoch
-      return dt.getTime() / 86400000;
-    };
-
-    // Show heat on age
-    nowDays = daysSinceEpoch(new Date());
-    lastPostDays = daysSinceEpoch(new Date(lastPost));
-    if (nowDays - lastPostDays > 60) return 'coldmap-high';
-    if (nowDays - lastPostDays > 30) return 'coldmap-med';
-    if (nowDays - lastPostDays > 14) return 'coldmap-low';
-    return null;
-  }.property('age', 'created_at', 'last_posted_at'),
-
   viewsHeat: function() {
     var v = this.get('views');
     if( v >= Discourse.SiteSettings.topic_views_heat_high )   return 'heatmap-high';
@@ -144,16 +129,29 @@ Discourse.Topic = Discourse.Model.extend({
   archetypeObject: function() {
     return Discourse.Site.currentProp('archetypes').findProperty('id', this.get('archetype'));
   }.property('archetype'),
+
   isPrivateMessage: Em.computed.equal('archetype', 'private_message'),
 
   toggleStatus: function(property) {
     this.toggleProperty(property);
-    if (property === 'closed' && this.get('closed')) {
+    this.saveStatus(property, this.get(property) ? true : false);
+  },
+
+  setStatus: function(property, value) {
+    this.set(property, value);
+    this.saveStatus(property, value);
+  },
+
+  saveStatus: function(property, value) {
+    if (property === 'closed' && value === true) {
       this.set('details.auto_close_at', null);
+    }
+    if (property === 'pinned') {
+      this.set('pinned_at', value ? moment() : null);
     }
     return Discourse.ajax(this.get('url') + "/status", {
       type: 'PUT',
-      data: {status: property, enabled: this.get(property) ? 'true' : 'false' }
+      data: {status: property, enabled: value ? 'true' : 'false' }
     });
   },
 
@@ -170,8 +168,7 @@ Discourse.Topic = Discourse.Model.extend({
     if (!wordCount) return;
 
     // Avg for 500 words per minute when you account for skimming
-    var minutes = Math.floor(wordCount / 500.0);
-    return minutes;
+    return Math.floor(wordCount / 500.0);
   }.property('word_count'),
 
   toggleStar: function() {
@@ -274,12 +271,35 @@ Discourse.Topic = Discourse.Model.extend({
 
     // Clear the pin optimistically from the object
     topic.set('pinned', false);
+    topic.set('unpinned', true);
 
     Discourse.ajax("/t/" + this.get('id') + "/clear-pin", {
       type: 'PUT'
     }).then(null, function() {
       // On error, put the pin back
       topic.set('pinned', true);
+      topic.set('unpinned', false);
+    });
+  },
+
+  /**
+    Re-pins a topic with a cleared pin
+
+    @method rePin
+  **/
+  rePin: function() {
+    var topic = this;
+
+    // Clear the pin optimistically from the object
+    topic.set('pinned', true);
+    topic.set('unpinned', false);
+
+    Discourse.ajax("/t/" + this.get('id') + "/re-pin", {
+      type: 'PUT'
+    }).then(null, function() {
+      // On error, put the pin back
+      topic.set('pinned', true);
+      topic.set('unpinned', false);
     });
   },
 
@@ -313,7 +333,7 @@ Discourse.Topic.reopenClass({
     WATCHING: 3,
     TRACKING: 2,
     REGULAR: 1,
-    MUTE: 0
+    MUTED: 0
   },
 
   createActionSummary: function(result) {
@@ -412,6 +432,17 @@ Discourse.Topic.reopenClass({
     return promise;
   },
 
+  changeOwners: function(topicId, opts) {
+    var promise = Discourse.ajax("/t/" + topicId + "/change-owner", {
+      type: 'POST',
+      data: opts
+    }).then(function (result) {
+      if (result.success) return result;
+      promise.reject(new Error("error changing ownership of posts"));
+    });
+    return promise;
+  },
+
   bulkOperation: function(topics, operation) {
     return Discourse.ajax("/topics/bulk", {
       type: 'PUT',
@@ -420,7 +451,19 @@ Discourse.Topic.reopenClass({
         operation: operation
       }
     });
+  },
+
+  bulkOperationByFilter: function(filter, operation) {
+    return Discourse.ajax("/topics/bulk", {
+      type: 'PUT',
+      data: { filter: filter, operation: operation }
+    });
+  },
+
+  resetNew: function() {
+    return Discourse.ajax("/topics/reset-new", {type: 'PUT'});
   }
+
 
 });
 

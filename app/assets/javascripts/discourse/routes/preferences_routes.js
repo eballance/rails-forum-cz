@@ -11,8 +11,8 @@ Discourse.PreferencesRoute = Discourse.RestrictedUserRoute.extend({
     return this.modelFor('user');
   },
 
-  setupController: function(controller, model) {
-    controller.set('model', model);
+  setupController: function(controller, user) {
+    controller.setProperties({ model: user, newNameInput: user.get('name') });
     this.controllerFor('user').set('indexStream', false);
   },
 
@@ -43,6 +43,13 @@ Discourse.PreferencesRoute = Discourse.RestrictedUserRoute.extend({
       ));
       user.set('avatar_template', avatarSelector.get('avatarTemplate'));
       avatarSelector.send('closeModal');
+    },
+    
+    showProfileBackgroundFileSelector: function() {
+      $("#profile-background-input").click();
+    },
+    clearProfileBackground: function() {
+      this.modelFor('user').clearProfileBackground();
     }
   }
 });
@@ -50,7 +57,7 @@ Discourse.PreferencesRoute = Discourse.RestrictedUserRoute.extend({
 Discourse.PreferencesIndexRoute = Discourse.RestrictedUserRoute.extend({
   renderTemplate: function() {
     this.render('preferences', { into: 'user', outlet: 'userOutlet', controller: 'preferences' });
-  },
+  }
 });
 
 /**

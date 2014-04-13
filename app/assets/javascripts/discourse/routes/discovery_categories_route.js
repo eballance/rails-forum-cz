@@ -17,6 +17,10 @@ Discourse.DiscoveryCategoriesRoute = Discourse.Route.extend({
   },
 
   model: function() {
+    // TODO: Remove this and ensure server side does not supply `topic_list`
+    // if default page is categories
+    PreloadStore.remove("topic_list");
+
     return Discourse.CategoryList.list('categories').then(function(list) {
       var tracking = Discourse.TopicTrackingState.current();
       if (tracking) {
@@ -41,5 +45,5 @@ Discourse.DiscoveryCategoriesRoute = Discourse.Route.extend({
       }));
       this.controllerFor('editCategory').set('selectedTab', 'general');
     }
-  },
+  }
 });

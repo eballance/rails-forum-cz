@@ -16,7 +16,8 @@ Discourse.Route.buildRoutes(function() {
     });
 
     this.resource('adminEmail', { path: '/email'}, function() {
-      this.route('logs');
+      this.route('all');
+      this.route('sent');
       this.route('skipped');
       this.route('previewDigest', { path: '/preview-digest' });
     });
@@ -46,6 +47,7 @@ Discourse.Route.buildRoutes(function() {
 
     this.resource('adminUsers', { path: '/users' }, function() {
       this.resource('adminUser', { path: '/:username' }, function() {
+        this.route('badges');
         this.route('leaderRequirements', { path: '/leader_requirements' });
       });
       this.resource('adminUsersList', { path: '/list' }, function() {
@@ -55,6 +57,8 @@ Discourse.Route.buildRoutes(function() {
         }, this);
       });
     });
+
+    this.route('badges');
 
   });
 });

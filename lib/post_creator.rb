@@ -2,6 +2,7 @@
 #
 require_dependency 'rate_limiter'
 require_dependency 'topic_creator'
+require_dependency 'post_jobs_enqueuer'
 
 class PostCreator
 
@@ -51,7 +52,6 @@ class PostCreator
   def create
     @topic = nil
     @post = nil
-    @new_topic = false
 
     Post.transaction do
       setup_topic
@@ -64,19 +64,24 @@ class PostCreator
       track_topic
       update_topic_stats
       update_user_counts
+      create_embedded_topic
+
       publish
       ensure_in_allowed_users if guardian.is_staff?
       @post.advance_draft_sequence
       @post.save_reply_relationships
     end
 
-    handle_spam
-    track_latest_on_category
-    enqueue_jobs
+    if @post
+      PostAlerter.post_created(@post)
+
+      handle_spam
+      track_latest_on_category
+      enqueue_jobs
+    end
 
     @post
   end
-
 
   def self.create(user, opts)
     PostCreator.new(user, opts).create
@@ -105,6 +110,14 @@ class PostCreator
 
   protected
 
+  # You can supply an `embed_url` for a post to set up the embedded relationship.
+  # This is used by the wp-discourse plugin to associate a remote post with a
+  # discourse post.
+  def create_embedded_topic
+    return unless @opts[:embed_url].present?
+    TopicEmbed.create!(topic_id: @post.topic_id, post_id: @post.id, embed_url: @opts[:embed_url])
+  end
+
   def handle_spam
     if @spam
       GroupMessage.create( Group[:moderators].name,
@@ -132,41 +145,6 @@ class PostCreator
     end
   end
 
-  def secure_group_ids(topic)
-    @secure_group_ids ||= if topic.category && topic.category.read_restricted?
-      topic.category.secure_group_ids
-    end
-  end
-
-  def after_post_create
-    return if @topic.private_message? || @post.post_type == Post.types[:moderator_action]
-
-    if @post.post_number > 1
-      TopicTrackingState.publish_unread(@post)
-    end
-
-    if SiteSetting.enable_mailing_list_mode
-      Jobs.enqueue_in(
-          SiteSetting.email_time_window_mins.minutes,
-          :notify_mailing_list_subscribers,
-          post_id: @post.id
-      )
-    end
-  end
-
-  def after_topic_create
-    return unless @new_topic
-    # Don't publish invisible topics
-    return unless @topic.visible?
-    return if @topic.private_message? || @post.post_type == Post.types[:moderator_action]
-
-    @topic.posters = @topic.posters_summary
-    @topic.posts_count = 1
-
-    TopicTrackingState.publish_new(@topic)
-  end
-
-
   def clear_possible_flags(topic)
     # at this point we know the topic is a PM and has been replied to ... check if we need to clear any flags
     #
@@ -189,7 +167,7 @@ class PostCreator
   private
 
   def setup_topic
-    if @opts[:topic_id].blank?
+    if new_topic?
       topic_creator = TopicCreator.new(@user, guardian, @opts)
 
       begin
@@ -200,8 +178,6 @@ class PostCreator
         @errors = topic_creator.errors
         raise ex
       end
-
-      @new_topic = true
     else
       topic = Topic.where(id: @opts[:topic_id]).first
       guardian.ensure_can_create!(Post, topic)
@@ -214,6 +190,7 @@ class PostCreator
     attrs = {last_posted_at: @post.created_at, last_post_user_id: @post.user_id}
     attrs[:bumped_at] = @post.created_at unless @post.no_bump
     attrs[:word_count] = (@topic.word_count || 0) + @post.word_count
+    attrs[:excerpt] = @post.excerpt(220, strip_links: true) if new_topic?
     @topic.update_attributes(attrs)
   end
 
@@ -234,6 +211,7 @@ class PostCreator
   end
 
   def rollback_if_host_spam_detected
+    return if @opts[:skip_validations]
     if @post.has_host_spam?
       @post.errors.add(:base, I18n.t(:spamming_host))
       @errors = @post.errors
@@ -279,7 +257,7 @@ class PostCreator
                     user: BasicUserSerializer.new(@post.user).as_json(root: false),
                     post_number: @post.post_number
                   },
-                  group_ids: secure_group_ids(@topic)
+                  group_ids: @topic.secure_group_ids
     )
   end
 
@@ -301,13 +279,11 @@ class PostCreator
 
   def enqueue_jobs
     return unless @post && !@post.errors.present?
-
-    # We need to enqueue jobs after the transaction. Otherwise they might begin before the data has
-    # been comitted.
-    topic_id = @opts[:topic_id] || @topic.try(:id)
-    Jobs.enqueue(:feature_topic_users, topic_id: @topic.id) if topic_id.present?
-    @post.trigger_post_process
-    after_post_create
-    after_topic_create
+    PostJobsEnqueuer.new(@post, @topic, new_topic?).enqueue_jobs
   end
+
+  def new_topic?
+    @opts[:topic_id].blank?
+  end
+
 end

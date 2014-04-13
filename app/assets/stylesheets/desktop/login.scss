@@ -1,8 +1,5 @@
 // style that apply to the login popup
 
-@import "common/foundation/variables";
-@import "common/foundation/mixins";
-
 #login-buttons {
   button {
     margin: 0 5px 5px 0;
@@ -14,7 +11,7 @@
 
 #login-form {
   a {
-    color: $primary_medium;
+    color: lighten($primary_text_color, 35%);
     cursor: pointer;
   }
 }
@@ -28,7 +25,7 @@
 // Create account
 
 #new-account-link {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .create-account {
@@ -52,7 +49,7 @@
 
   tr.instructions {
     label {
-      color: $primary_light;
+      color: $secondary_text_color;
     }
   }
 

@@ -36,7 +36,6 @@ Discourse.KeyboardShortcuts = Ember.Object.createWithMixins({
     'R': 'article.selected button.create',                        // reply to selected post
     's': '#topic-footer-buttons button.share',                    // share topic
     'S': 'article.selected button.share',                         // share selected post
-    '/': '#search-button',                                        // focus search
     '!': 'article.selected button.flag'                           // flag selected post
   },
 
@@ -48,6 +47,7 @@ Discourse.KeyboardShortcuts = Ember.Object.createWithMixins({
     'u': 'goBack',
     '`': 'nextSection',
     '~': 'prevSection',
+    '/': 'showSearch',
     '?': 'showHelpModal'                                          // open keyboard shortcut help
   },
 
@@ -59,11 +59,17 @@ Discourse.KeyboardShortcuts = Ember.Object.createWithMixins({
   },
 
   goToFirstPost: function() {
-    Discourse.__container__.lookup('controller:topic').send('jumpTop');
+    this._jumpTo('jumpTop');
   },
 
   goToLastPost: function() {
-    Discourse.__container__.lookup('controller:topic').send('jumpBottom');
+    this._jumpTo('jumpBottom');
+  },
+
+  _jumpTo: function(direction) {
+    if ($('#topic-title').length) {
+      Discourse.__container__.lookup('controller:topic').send(direction);
+    }
   },
 
   selectDown: function() {
@@ -84,6 +90,11 @@ Discourse.KeyboardShortcuts = Ember.Object.createWithMixins({
 
   prevSection: function() {
     this._changeSection(-1);
+  },
+
+  showSearch: function() {
+    $('#search-button').click();
+    return false;
   },
 
   showHelpModal: function() {
@@ -127,7 +138,13 @@ Discourse.KeyboardShortcuts = Ember.Object.createWithMixins({
     if ($article.size() > 0) {
       $articles.removeClass('selected');
       $article.addClass('selected');
-      this._scrollList($article);
+
+      var rgx = new RegExp("post-cloak-(\\d+)").exec($article.parent()[0].id);
+      if (rgx === null || typeof rgx[1] === 'undefined') {
+          this._scrollList($article);
+      } else {
+          Discourse.TopicView.jumpToPost(rgx[1]);
+      }
     }
   },
 

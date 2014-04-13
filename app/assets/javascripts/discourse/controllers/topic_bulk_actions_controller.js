@@ -8,6 +8,8 @@
   @module Discourse
 **/
 Discourse.TopicBulkActionsController = Ember.ArrayController.extend(Discourse.ModalFunctionality, {
+  needs: ['discoveryTopics'],
+
   onShow: function() {
     this.set('controllers.modal.modalClass', 'topic-bulk-actions-modal small');
   },
@@ -40,10 +42,22 @@ Discourse.TopicBulkActionsController = Ember.ArrayController.extend(Discourse.Mo
     });
   },
 
+  performAndRefresh: function(operation) {
+    var self = this;
+    return this.perform(operation).then(function() {
+      self.get('controllers.discoveryTopics').send('refresh');
+      self.send('closeModal');
+    });
+  },
+
   actions: {
     showChangeCategory: function() {
       this.send('changeBulkTemplate', 'modal/bulk_change_category');
       this.set('controllers.modal.modalClass', 'topic-bulk-actions-modal full');
+    },
+
+    showNotificationLevel: function() {
+      this.send('changeBulkTemplate', 'modal/bulk_notification_level');
     },
 
     closeTopics: function() {
@@ -62,6 +76,10 @@ Discourse.TopicBulkActionsController = Ember.ArrayController.extend(Discourse.Mo
         });
         self.send('closeModal');
       });
+    },
+
+    resetRead: function() {
+      this.performAndRefresh({ type: 'reset_read' });
     }
   }
 });

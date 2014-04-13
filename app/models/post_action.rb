@@ -20,6 +20,7 @@ class PostAction < ActiveRecord::Base
 
   after_save :update_counters
   after_save :enforce_rules
+  after_commit :notify_subscribers
 
   def self.update_flagged_posts_count
     posts_flagged_count = PostAction.joins(post: :topic)
@@ -124,13 +125,19 @@ class PostAction < ActiveRecord::Base
 
     related_post_id = create_message_for_post_action(user,post,post_action_type_id,opts)
 
+    targets_topic = if opts[:flag_topic] and post.topic
+      post.topic.reload
+      post.topic.posts_count != 1
+    end
+
     create( post_id: post.id,
             user_id: user.id,
             post_action_type_id: post_action_type_id,
             message: opts[:message],
             staff_took_action: opts[:take_action] || false,
             related_post_id: related_post_id,
-            targets_topic: !!opts[:flag_topic] )
+            targets_topic: !!targets_topic )
+
   rescue ActiveRecord::RecordNotUnique
     # can happen despite being .create
     # since already bookmarked
@@ -147,7 +154,10 @@ class PostAction < ActiveRecord::Base
 
   def remove_act!(user)
     trash!(user)
-    run_callbacks(:save)
+    # NOTE: save is called to ensure all callbacks are called
+    # trash will not trigger callbacks, and triggering after_commit
+    # is not trivial
+    save
   end
 
   def is_bookmark?
@@ -254,6 +264,18 @@ class PostAction < ActiveRecord::Base
     SpamRulesEnforcer.enforce!(post.user) if post_action_type_key == :spam
   end
 
+  def notify_subscribers
+    if (is_like? || is_flag?) && post
+      MessageBus.publish("/topic/#{post.topic_id}",{
+                      id: post.id,
+                      post_number: post.post_number,
+                      type: "acted"
+                    },
+                    group_ids: post.topic.secure_group_ids
+      )
+    end
+  end
+
   def self.auto_hide_if_needed(post, post_action_type)
     return if post.hidden
 
@@ -313,8 +335,8 @@ end
 #  user_id             :integer          not null
 #  post_action_type_id :integer          not null
 #  deleted_at          :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  created_at          :datetime
+#  updated_at          :datetime
 #  deleted_by_id       :integer
 #  message             :text
 #  related_post_id     :integer
@@ -328,4 +350,3 @@ end
 #  idx_unique_actions             (user_id,post_action_type_id,post_id,deleted_at) UNIQUE
 #  index_post_actions_on_post_id  (post_id)
 #
-
