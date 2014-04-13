@@ -58,6 +58,12 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.1.4)
+    capistrano (2.13.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     certified (0.1.1)
@@ -146,6 +152,10 @@ GEM
     jwt (0.1.11)
       multi_json (>= 1.5)
     kgio (2.9.2)
+    launchy (2.4.2)
+      addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     librarian (0.1.2)
       highline
       thor (~> 0.15)
@@ -175,7 +185,11 @@ GEM
     mustache (0.99.5)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
     net-ssh (2.8.0)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     oauth (0.4.7)
@@ -396,6 +410,7 @@ DEPENDENCIES
   barber
   better_errors
   binding_of_caller
+  capistrano (= 2.13.5)
   certified
   discourse_plugin!
   email_reply_parser-discourse
@@ -417,6 +432,7 @@ DEPENDENCIES
   hiredis
   image_optim (= 0.9.1)
   image_sorcery
+  letter_opener
   librarian (>= 0.0.25)
   listen (= 0.7.3)
   lru_redux
