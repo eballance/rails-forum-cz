@@ -52,13 +52,8 @@ cs:
           one: "1r"
           few: "%{count}r"
           other: "%{count}let"
-<<<<<<< HEAD
-        date_month: "DD. MM."
-        date_year: "DD. MM. YYYY"
-=======
         date_month: "D MMM"
         date_year: "MMM 'YY"
->>>>>>> upstream/master
       medium:
         x_minutes:
           one: "1 minuta"
@@ -194,41 +189,6 @@ cs:
         members_mods_and_admins: "Pouze členové skupiny, moderátoři a správci"
         everyone: "Kdokoliv"
     user_action_groups:
-<<<<<<< HEAD
-      "1": "Rozdaných 'líbí se'"
-      "2": "Obdržených 'líbí se'"
-      "3": "Záložky"
-      "4": "Témata"
-      "5": "Odpovědi"
-      "6": "Odezvy ostatních"
-      "7": "Zmíňky"
-      "9": "Citace"
-      "10": "Oblíbené"
-      "11": "Editace"
-      "12": "Odeslané zprávy"
-      "13": "Přijaté zprávy"
-
-    categories:
-      all: "all categories"
-      all_subcategories: "all subcategories"
-      no_subcategory: "no subcategory"
-      category: "Category"
-      posts: "New Posts"
-      topics: "New Topics"
-      latest: "Latest"
-      latest_by: "latest by"
-      toggle_ordering: "toggle ordering control"
-      subcategories: "Subcategories"
-      topic_stats: "The number of new topics."
-      topic_stat_sentence:
-        one: "%{count} new topic in the past %{unit}."
-        other: "%{count} new topics in the past %{unit}."
-      post_stats: "The number of new posts."
-      post_stat_sentence:
-        one: "%{count} new post in the past %{unit}."
-        other: "%{count} new posts in the past %{unit}."
-
-=======
       '1': "Rozdaných 'líbí se'"
       '2': "Obdržených 'líbí se'"
       '3': "Záložky"
@@ -262,7 +222,6 @@ cs:
         one: "%{count} nový příspěvěk za posledních %{unit}."
         few: "%{count} nové příspěvky za posledních %{unit}."
         other: "%{count} nových příspěvků za posledních %{unit}."
->>>>>>> upstream/master
     user:
       said: "uživatel {{username}} řekl:"
       profile: "Profil"
@@ -839,19 +798,8 @@ cs:
         cancel: zrušit označování
         description:
           one: Máte označen <b>1</b> příspěvek.
-<<<<<<< HEAD
-          few: "Máte označeny <b>{{count}}</b> příspěvky."
-          other: "Máte označeno <b>{{count}}</b> příspěvků."
-
-      flag_topic:
-        title: 'Flag'
-        help: 'privately flag this topic for attention or send a private notification about it'
-        success_message: 'You successfully flagged this topic.'
-
-=======
           few: Máte označeny <b>{{count}}</b> příspěvky.
           other: Máte označeno <b>{{count}}</b> příspěvků.
->>>>>>> upstream/master
     post:
       reply: "Odpovídáte na {{link}} od {{replyAvatar}} {{username}}"
       reply_topic: "Odpověď na {{link}}"
