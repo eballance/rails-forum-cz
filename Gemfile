@@ -135,6 +135,7 @@ gem 'pg', '0.15.1'
 gem 'rake'
 
 gem 'capistrano', '2.13.5'
+gem 'clockwork', require: false
 
 gem 'rest-client'
 gem 'rinku'
