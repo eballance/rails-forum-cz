@@ -5,7 +5,7 @@ Discourse::Application.configure do
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -40,8 +40,10 @@ Discourse::Application.configure do
   #   :authentication       => 'plain',
   #   :enable_starttls_auto => true  }
 
-  config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.sendmail_settings = {arguments: '-i'}
+  config.action_mailer.delivery_method = :test
+
+  # config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.sendmail_settings = {arguments: '-i'}
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
