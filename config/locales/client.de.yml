@@ -1,3 +1,10 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+# To work with us on translations, join this project:
+# https://www.transifex.com/projects/p/discourse-pt-br/
+
 de:
   js:
     number:
@@ -461,12 +468,12 @@ de:
         need_more_for_title: "noch {{n}} für den Titel"
         need_more_for_reply: "{{n}} fehlen in der Antwort noch"
       error:
-        title_missing: "Titel ist erforderlich."
-        title_too_short: "Titel muss mindestens {{min}} Zeichen lang sein."
-        title_too_long: "Titel darf maximal {{max}} Zeichen lang sein."
-        post_missing: "Beitrag kann nicht leer sein."
-        post_length: "Beitrag muss mindestens {{min}} Zeichen lang sein."
-        category_missing: "Du musst eine Kategorie wählen."
+        title_missing: "Titel ist erforderlich"
+        title_too_short: "Titel muss mindestens {{min}} Zeichen lang sein"
+        title_too_long: "Titel darf maximal {{max}} Zeichen lang sein"
+        post_missing: "Beitrag kann nicht leer sein"
+        post_length: "Beitrag muss mindestens {{min}} Zeichen lang sein"
+        category_missing: "Du musst eine Kategorie wählen"
       save_edit: "Bearbeitung speichern"
       reply_original: "Dem ursprünglichen Thema antworten"
       reply_here: "Hier antworten"
@@ -543,7 +550,7 @@ de:
       local_tip: "Klicke hier, um ein Bild von deinem Gerät zu wählen."
       local_tip_with_attachments: "Klicke hier, um ein Bild oder eine Datei von deinem Gerät zu wählen (Erlaubte Dateiendungen: {{authorized_extensions}})"
       hint: "(du kannst auch drag & drop verwenden, um etwas in den editor hochzuladen)"
-      hint_for_chrome: "(du kannst auch drag & drop oder copy & paste verwenden, um etwas in den editor hochzuladen)"
+      hint_for_supported_browsers: "(du kannst auch drag & drop oder copy & paste verwenden, um etwas in den editor hochzuladen)"
       uploading: "Hochladen..."
       image_link: "Der Link deines Bildes verweist auf"
     search:
@@ -1290,12 +1297,15 @@ de:
         delete: "Löschen"
         delete_confirm: "Diese Anpassung löschen?"
         about: "Seite personalisieren erlaubt dir das Anpassen der Stilvorlagen und des Kopfbereich der Seite. Wähle oder füge eine Anpassung hinzu um mit dem Editieren zu beginnen."
+        copy: "Kopieren"
+        css_html:
+          title: "CSS, HTML"
+          long_title: "CSS und HTML Anpassungen"
       email:
         title: "Mailprotokoll"
         settings: "Einstellungen"
         all: "Alle"
         sending_test: "Versende Testemail..."
-        test_error: "Beim Senden der Email ist ein Fehler aufgetreten. Bitte überprüfe deine Einstellungen und versuche es erneut."
         sent: "Gesendet"
         skipped: "Übersprungen"
         sent_at: "Gesendet am"
@@ -1607,6 +1617,10 @@ de:
         mark_tracking: '<b>m</b> dann <b>t</b> Thema auf verfolgen setzen'
         mark_watching: '<b>m</b> dann <b>w</b> Thema auf beobachten setzen'
     badges:
+      title: Abzeichen
+      badge_count:
+        one: "1 Abzeichen"
+        other: "%{count} Abzeichen"
       example_badge:
         name: Beispielsabzeichen
         description: Dies ist ein Beispielabzeichen.

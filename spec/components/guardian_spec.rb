@@ -128,6 +128,20 @@ describe Guardian do
     it "returns true to another user" do
       Guardian.new(user).can_send_private_message?(another_user).should be_true
     end
+
+    context "enable_private_messages is false" do
+      before { SiteSetting.stubs(:enable_private_messages).returns(false) }
+
+      it "returns false if user is not the contact user" do
+        Guardian.new(user).can_send_private_message?(another_user).should be_false
+      end
+
+      it "returns true for the contact user and system user" do
+        SiteSetting.stubs(:site_contact_username).returns(user.username)
+        Guardian.new(user).can_send_private_message?(another_user).should be_true
+        Guardian.new(Discourse.system_user).can_send_private_message?(another_user).should be_true
+      end
+    end
   end
 
   describe 'can_reply_as_new_topic' do
@@ -236,6 +250,24 @@ describe Guardian do
 
     it 'returns false with a nil object' do
       Guardian.new.can_see?(nil).should be_false
+    end
+
+    describe 'a Group' do
+      let(:group) { Group.new }
+      let(:invisible_group) { Group.new(visible: false) }
+
+      it "returns true when the group is visible" do
+        Guardian.new.can_see?(group).should be_true
+      end
+
+      it "returns true when the group is visible but the user is an admin" do
+        admin = Fabricate.build(:admin)
+        Guardian.new(admin).can_see?(invisible_group).should be_true
+      end
+
+      it "returns false when the group is invisible" do
+        Guardian.new.can_see?(invisible_group).should be_false
+      end
     end
 
     describe 'a Topic' do

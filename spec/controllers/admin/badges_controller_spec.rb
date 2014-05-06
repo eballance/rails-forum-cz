@@ -9,18 +9,6 @@ describe Admin::BadgesController do
     let!(:user) { log_in(:admin) }
     let!(:badge) { Fabricate(:badge) }
 
-    context '.index' do
-      it 'returns success' do
-        xhr :get, :index
-        response.should be_success
-      end
-
-      it 'returns JSON' do
-        xhr :get, :index
-        ::JSON.parse(response.body)["badges"].should be_present
-      end
-    end
-
     context '.badge_types' do
       it 'returns success' do
         xhr :get, :badge_types
@@ -47,12 +35,12 @@ describe Admin::BadgesController do
 
     context '.update' do
       it 'returns success' do
-        xhr :put, :update, id: badge.id, name: "123456", badge_type_id: badge.badge_type_id
+        xhr :put, :update, id: badge.id, name: "123456", badge_type_id: badge.badge_type_id, allow_title: false
         response.should be_success
       end
 
       it 'updates the badge' do
-        xhr :put, :update, id: badge.id, name: "123456", badge_type_id: badge.badge_type_id
+        xhr :put, :update, id: badge.id, name: "123456", badge_type_id: badge.badge_type_id, allow_title: false
         badge.reload.name.should eq('123456')
       end
     end

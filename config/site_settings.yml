@@ -75,7 +75,6 @@ basic:
     default: 30
   topics_per_period_in_top_summary: 20
   topics_per_period_in_top_page: 50
-  redirect_new_users_to_top_page_duration: 7
   category_featured_topics:
     client: true
     default: 3
@@ -103,6 +102,10 @@ users:
   min_username_length:
     client: true
     default: 3
+  max_username_length:
+    client: true
+    default: 15
+    hidden: true
   min_password_length:
     client: true
     default: 8
@@ -151,7 +154,9 @@ users:
   delete_user_max_post_age:
     client: true
     default: 60
-  delete_all_posts_max: 15
+  delete_all_posts_max:
+    client: true
+    default: 15
   redirect_users_to_top_page: true
 
 posting:
@@ -179,6 +184,7 @@ posting:
     default: 255
   title_min_entropy: 10
   title_prettify: true
+  title_sanitize: false
   title_fancy_entities: true
   min_private_message_title_length:
     client: true
@@ -246,6 +252,7 @@ email:
   email_time_window_mins: 10
   email_posts_context: 5
   digest_min_excerpt_length: 100
+  digest_topics: 20
   default_digest_email_frequency:
     default: 7
     enum: 'DigestEmailSiteSetting'
@@ -276,7 +283,7 @@ files:
     default: 1024
   authorized_extensions:
     client: true
-    default: '.jpg|.jpeg|.png|.gif'
+    default: 'jpg|jpeg|png|gif'
     refresh: true
     list: true
   crawl_images:
@@ -294,6 +301,9 @@ files:
       test: false
       default: true
   download_remote_images_threshold: 20
+  disabled_image_download_domains:
+    list: true
+    default: ''
   create_thumbnails: true
   clean_up_uploads: false
   clean_orphan_uploads_grace_period_hours: 1
@@ -339,6 +349,7 @@ security:
   enable_escaped_fragments: true
   allow_index_in_robots_txt: true
   enable_noscript_support: true
+  allow_moderators_to_create_categories: false
 
 onebox:
   enable_flash_video_onebox: false
@@ -419,6 +430,8 @@ embedding:
   embed_category: ''
   embed_post_limit: 100
   embed_truncate: false
+  embed_whitelist_selector: ''
+  embed_blacklist_selector: ''
 
 legal:
   tos_url:

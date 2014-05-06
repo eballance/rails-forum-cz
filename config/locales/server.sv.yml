@@ -1,3 +1,10 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+# To work with us on translations, join this project:
+# https://www.transifex.com/projects/p/discourse-pt-br/
+
 sv:
   dates:
     short_date_no_year: "D MMM"
@@ -422,7 +429,6 @@ sv:
     add_rel_nofollow_to_user_content: "Lägg till rel nofollow på allt användargenererat innehåll, förutom interna länkar (inkluderat förälderdomäner) så kräver en ändring av detta att du uppdaterar all bakad markdown"
     post_excerpt_maxlength: "Maxlängd på ett inläggs utdrag i tecken"
     post_onebox_maxlength: "Maxlängd på ett onebox:at Discourse-inlägg"
-    onebox_max_chars: "Max antal tecken en onebox importerar från en extern sida i ett inlägg"
     logo_url: "Logotypen för din webbplats t.ex.: http://xyz.com/x.png"
     logo_small_url: "Den lilla logotypen för din webbplats som används när man bläddrar ner i trådar t.ex.: http://xyz.com/x-small.png"
     favicon_url: "En favicon för till webbplats, se http://en.wikipedia.org/wiki/Favicon"
@@ -571,7 +577,7 @@ sv:
     closed_enabled: "This topic is now closed. New replies are no longer allowed."
     closed_disabled: "This topic is now opened. New replies are allowed."
     autoclosed_disabled: "Den här tråden är nu öppen. Nya svar är tillåtna."
-    pinned_enabled: "This topic is now pinned. It will appear at the top of its category until it is either unpinned by a moderator, or cleared by each user using the Clear Pin button."
+    pinned_enabled: "This topic is now pinned. It will appear at the top of its category until it is unpinned by staff for everyone, or by individual users for themselves."
     pinned_disabled: "This topic is now unpinned. It will no longer appear at the top of its category."
     visible_enabled: "This topic is now visible. It will be displayed in topic lists."
     visible_disabled: "This topic is now invisible. It will no longer be displayed in any topic lists. The only way to access this topic is via direct link."
@@ -627,7 +633,7 @@ sv:
 
         ... was hidden due to community flagging.
 
-        Keep in mind that multiple community members flagged this post before it was hidden, so **please consider how you might revise your post to reflect their feedback.** You can edit your post after %{edit_delay} minutes, and it will be automatically unhidden. This will increase your forum trust level.
+        Keep in mind that multiple community members flagged this post before it was hidden, so **please consider how you might revise your post to reflect their feedback.** You can edit your post after %{edit_delay} minutes, and it will be automatically unhidden. This will increase your trust level.
 
         However, if the post is hidden by the community a second time, the moderators will be notified -- and there may be further action, including the possible suspension of your account.
 

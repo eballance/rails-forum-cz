@@ -6,13 +6,13 @@ require_dependency 'summarize'
 require_dependency 'discourse'
 require_dependency 'post_destroyer'
 require_dependency 'user_name_suggester'
-require_dependency 'roleable'
 require_dependency 'pretty_text'
 require_dependency 'url_helper'
 
 class User < ActiveRecord::Base
   include Roleable
   include UrlHelper
+  include HasCustomFields
 
   has_many :posts
   has_many :notifications, dependent: :destroy
@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   has_one :user_stat, dependent: :destroy
   has_one :single_sign_on_record, dependent: :destroy
   belongs_to :approved_by, class_name: 'User'
+  belongs_to :primary_group, class_name: 'Group'
 
   has_many :group_users, dependent: :destroy
   has_many :groups, through: :group_users
@@ -102,12 +103,12 @@ class User < ActiveRecord::Base
     if SiteSetting.enforce_global_nicknames
       GLOBAL_USERNAME_LENGTH_RANGE
     else
-      SiteSetting.min_username_length.to_i..GLOBAL_USERNAME_LENGTH_RANGE.end
+      SiteSetting.min_username_length.to_i..SiteSetting.max_username_length.to_i
     end
   end
 
   def custom_groups
-    groups.where(automatic: false)
+    groups.where(automatic: false, visible: true)
   end
 
   def self.username_available?(username)
@@ -384,10 +385,16 @@ class User < ActiveRecord::Base
 
   def posted_too_much_in_topic?(topic_id)
 
-    # Does not apply to staff or your own topics
-    return false if staff? || Topic.where(id: topic_id, user_id: id).exists?
+    # Does not apply to staff, non-new members or your own topics
+    return false if staff? ||
+                    (trust_level != TrustLevel.levels[:newuser]) ||
+                    Topic.where(id: topic_id, user_id: id).exists?
 
-    trust_level == TrustLevel.levels[:newuser] && (Post.where(topic_id: topic_id, user_id: id).count >= SiteSetting.newuser_max_replies_per_topic)
+    last_action_in_topic = UserAction.last_action_in_topic(id, topic_id)
+    since_reply = Post.where(user_id: id, topic_id: topic_id)
+    since_reply = since_reply.where('id > ?', last_action_in_topic) if last_action_in_topic
+
+    (since_reply.count >= SiteSetting.newuser_max_replies_per_topic)
   end
 
   def bio_excerpt
@@ -492,6 +499,14 @@ class User < ActiveRecord::Base
     Summarize.new(bio_cooked).summary
   end
 
+  def badge_count
+    user_badges.count
+  end
+
+  def featured_user_badges
+    user_badges.joins(:badge).order('badges.badge_type_id ASC, badges.grant_count ASC').includes(:user, :granted_by, badge: :badge_type).limit(3)
+  end
+
   def self.count_by_signup_date(sinceDaysAgo=30)
     where('created_at > ?', sinceDaysAgo.days.ago).group('date(created_at)').order('date(created_at)').count
   end
@@ -527,10 +542,15 @@ class User < ActiveRecord::Base
     created_at > 1.day.ago
   end
 
-  def upload_avatar(avatar)
+  def upload_avatar(upload)
     self.uploaded_avatar_template = nil
-    self.uploaded_avatar = avatar
+    self.uploaded_avatar = upload
     self.use_uploaded_avatar = true
+    self.save!
+  end
+
+  def upload_profile_background(upload)
+    self.profile_background = upload.url
     self.save!
   end
 
@@ -566,12 +586,33 @@ class User < ActiveRecord::Base
     return unless SiteSetting.top_menu =~ /top/i
     # there should be enough topics
     return unless SiteSetting.has_enough_topics_to_redirect_to_top
-    # new users
-    return I18n.t('redirected_to_top_reasons.new_user') if trust_level == 0 &&
-      created_at > SiteSetting.redirect_new_users_to_top_page_duration.days.ago
-    # long-time-no-see user
-    return I18n.t('redirected_to_top_reasons.not_seen_in_a_month') if last_seen_at && last_seen_at < 1.month.ago
+
+    if !seen_before? || (trust_level == 0 && !redirected_to_top_yet?)
+      update_last_redirected_to_top!
+      return I18n.t('redirected_to_top_reasons.new_user')
+    elsif last_seen_at < 1.month.ago
+      update_last_redirected_to_top!
+      return I18n.t('redirected_to_top_reasons.not_seen_in_a_month')
+    end
+
+    # no reason
     nil
+  end
+
+  def redirected_to_top_yet?
+    last_redirected_to_top_at.present?
+  end
+
+  def update_last_redirected_to_top!
+    key = "user:#{id}:update_last_redirected_to_top"
+    delay = SiteSetting.active_user_rate_limit_secs
+
+    # only update last_redirected_to_top_at once every minute
+    return unless $redis.setnx(key, "1")
+    $redis.expire(key, delay)
+
+    # delay the update
+    Jobs.enqueue_in(delay / 2, :update_top_redirection, user_id: self.id, redirected_at: Time.zone.now)
   end
 
   protected
@@ -687,9 +728,9 @@ end
 # Table name: users
 #
 #  id                            :integer          not null, primary key
-#  username                      :string(20)       not null
-#  created_at                    :datetime
-#  updated_at                    :datetime
+#  username                      :string(60)       not null
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
 #  name                          :string(255)
 #  bio_raw                       :text
 #  seen_notification_id          :integer          default(0), not null
@@ -698,7 +739,7 @@ end
 #  password_hash                 :string(64)
 #  salt                          :string(32)
 #  active                        :boolean
-#  username_lower                :string(20)       not null
+#  username_lower                :string(60)       not null
 #  auth_token                    :string(32)
 #  last_seen_at                  :datetime
 #  website                       :string(255)
@@ -733,8 +774,8 @@ end
 #  uploaded_avatar_id            :integer
 #  email_always                  :boolean          default(FALSE), not null
 #  mailing_list_mode             :boolean          default(FALSE), not null
-#  locale                        :string(10)
 #  primary_group_id              :integer
+#  locale                        :string(10)
 #  profile_background            :string(255)
 #
 # Indexes

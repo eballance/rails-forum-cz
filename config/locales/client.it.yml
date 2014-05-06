@@ -1,3 +1,10 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+# To work with us on translations, join this project:
+# https://www.transifex.com/projects/p/discourse-pt-br/
+
 it:
   js:
     number:
@@ -154,6 +161,7 @@ it:
       sent_by_user: "Inviato da <a href='{{userUrl}}'>{{user}}</a>"
       sent_by_you: "Inviato da <a href='{{userUrl}}'>te</a>"
     groups:
+      visible: "Il Gruppo è visibile a tutti gli utenti"
       title:
         one: "gruppo"
         other: "gruppi"
@@ -364,6 +372,8 @@ it:
         instructions: "Deve essere almeno di %{count} caratteri."
       ip_address:
         title: "Ultimo indirizzo IP"
+      registration_ip_address:
+        title: "Indirizzo IP di Registrazione"
       avatar:
         title: "Avatar"
       title:
@@ -461,12 +471,12 @@ it:
         need_more_for_title: "{{n}} per andare al titolo"
         need_more_for_reply: "Ancora {{n}} per arrivare al post"
       error:
-        title_missing: "Il titolo è obbligatorio."
-        title_too_short: "Il titolo deve essere lungo almeno {{min}} caratteri."
-        title_too_long: "Il titolo deve essere più corto di {{max}} caratteri."
-        post_missing: "I post non possono essere vuoti."
-        post_length: "I post devono essere almeno di {{min}} caratteri."
-        category_missing: "Devi scegliere una categoria."
+        title_missing: "Il titolo è richiesto"
+        title_too_short: "Il titolo deve essere lungo almeno {{min}} caratteri"
+        title_too_long: "Il titolo non può essere più lungo di {{max}} caratteri"
+        post_missing: "Il post non può essere vuoto"
+        post_length: "Il post deve essere lungo almeno {{min}} caratteri"
+        category_missing: "Devi scegliere una categoria"
       save_edit: "Salva le modifiche"
       reply_original: "Rispondi al topic originale"
       reply_here: "Rispondi qui"
@@ -515,6 +525,7 @@ it:
       admin_options_title: "Impostazioni opzionali per questo topic"
       auto_close_label: "Momento di auto chiusura del topic:"
       auto_close_units: "(# ore, tempo, o timestamp)"
+      auto_close_examples: 'inserisci orario assoluto o numero di ore - 24, 17:00, 2013-11-22 14:00'
       auto_close_error: "Per favore immetti un valore valido."
     notifications:
       title: "notifiche di quando @name viene citato, se ci sono risposte ai tuoi post, messaggi privati ecc."
@@ -532,6 +543,7 @@ it:
       moved_post: "<i title='moved post' class='fa fa-arrow-right'></i> {{username}} spostato {{link}}"
       total_flagged: "Numero totale di post segnalati"
       linked: "<i title='linked post' class='fa fa-arrow-left'></i> {{username}} {{link}}"
+      granted_badge: "<i title='badge granted' class='fa fa-certificate'></i> Ti è stato assegnato {{link}}"
     upload_selector:
       title: "Aggiungi un'immagine"
       title_with_attachments: "Aggiungi un'immagine o un file"
@@ -542,7 +554,7 @@ it:
       local_tip: "Clicca per selezionare un'immagine dal tuo dispositivo."
       local_tip_with_attachments: "Clicca per selezionare un'immagine o un file dal tuo dispositivo (estensioni permesse: {{authorized_extensions}})"
       hint: "(puoi anche trascinarle nell'editor per caricarle)"
-      hint_for_chrome: "(puoi anche trascinare o incollare le immagini nell'editor per caricarle)"
+      hint_for_supported_browsers: "(puoi anche trascinare o incollare immagini nell'editor per caricarle)"
       uploading: "In caricamento"
       image_link: "Il link a cui la tua immagine punterà"
     search:
@@ -737,7 +749,7 @@ it:
         email_placeholder: 'nome@esempio.com'
         success: "Grazie! Abbiamo invitato <b>{{email}}</b>. Ti faremo sapere quando l'invito verrà accettato. Controlla la tab Inviti nella tua pagina personale per tener traccia delle persone che inviti. "
         error: "Spiacenti, non possiamo invitare quella persona. Forse è già un utente?"
-      login_reply: 'Effettua l''accesso per rispondere'
+      login_reply: 'Accedi per rispondere'
       filters:
         n_posts:
           one: "1 post"
@@ -767,6 +779,7 @@ it:
         instructions:
           one: "Seleziona il nuovo proprietario del post di <b>{{old_user}}</b>."
           other: "Seleziona il nuovo proprietario dei {{count}} post di <b>{{old_user}}</b>."
+        instructions_warn: "Si badi che ogni notifica circa questo post non verrà trasferita al nuovo utente in modo retroattivo.<br>Attenzione: Al momento non è trasferito alcun dato post-dipendente al nuovo utente. Usa con cautela."
       multi_select:
         select: 'Scegli'
         selected: 'selezionati ({{count}})'
@@ -1015,6 +1028,22 @@ it:
       clicks:
         one: "1 click"
         other: "%{count} click"
+    topic_statuses:
+      locked:
+        help: "Questo topic è chiuso; non sono ammesse nuove risposte"
+      unpinned:
+        title: "Non in Evidenza"
+        help: "Questo topic non è più in evidenza; verrà mostrato nell'ordine default"
+      pinned_globally:
+        title: "In Evidenza Globalmente"
+        help: "Questo topic è in evidenza globalmente; verrà mostrato in cima ad ogni lista"
+      pinned:
+        title: "In Evidenza"
+        help: "Questo topic è in evidenza; verrà mostrato in cima alla sua categoria"
+      archived:
+        help: "Questo topic è archiviato; è bloccato e non può essere modificato"
+      invisible:
+        help: "Questo topic è invisibile; non verrà mostrato nella lista dei topic ed è possibile accedervi solo tramite link diretto"
     posts: "Post"
     posts_long: "Ci sono {{number}} post in questo topic"
     original_post: "Post originale"
@@ -1272,12 +1301,26 @@ it:
         delete: "Cancella"
         delete_confirm: "Cancella questa personalizzazione?"
         about: "La personalizzazione del sito ti permette di modificare fogli di stile e testate. Selezionane o aggiungine una per iniziare."
+        color: "Colore"
+        opacity: "Opacità"
+        copy: "Copia"
+        css_html:
+          title: "CSS, HTML"
+          long_title: "Personalizzazioni CSS e HTML"
+        colors:
+          title: "Colori"
+          long_title: "Combinazioni Colori"
+          about: "Le combinazioni di colori ti permettono di modificare i colori utilizzati sul sito senza scrivere CSS. Scegline una per iniziare."
+          new_name: "Nuova Combinazione Colori"
+          copy_name_prefix: "Copia di"
+          delete_confirm: "Eliminare questa combinazione di colori?"
+          under_construction: "AVVISO: I cambiamenti effettuati qui non avranno alcun effetto! Questa funzionalità è in costruzione!"
       email:
         title: "Email"
         settings: "Impostazioni"
         all: "Tutto"
         sending_test: "Invio email di prova..."
-        test_error: "C'è stato un errore durante l'invio dell'email. Controlla le impostazioni e riprova."
+        test_error: "C'è stato un problema nell'invio dell'email di test. Controlla nuovamente le impostazioni email, verifica che il tuo host non blocchi le connessioni email e riprova."
         sent: "Inviato"
         skipped: "Salta"
         sent_at: "Inviato a"
@@ -1461,8 +1504,11 @@ it:
           one: "Non è possibile cancellare utenti se hanno post attivi. Elimina tutti i posti prima di cancellare un utente (post più vecchi di %{count} giorni non possono essere cancellati)."
           other: "Non è possibile cancellare utenti se hanno post attivi. Elimina tutti i posti prima di cancellare un utente (post più vecchi di %{count} giorni non possono essere cancellati)."
         cant_delete_all_posts:
-          one: "Impossibile eliminare tutti i post. Alcuni sono più vecchi di %{count} giorni."
-          other: "Impossibile eliminare tutti i post. Alcuni sono più vecchi di %{count} giorni."
+          one: "Non posso cancellare tutti i post. Alcuni sono più vecchi di %{count} giorno. (L'impostazione delete_user_max_post_age.)"
+          other: "Non posso cancellare tutti i post. Alcuni sono più vecchi di %{count} giorni. (L'impostazione delete_user_max_post_age.)"
+        cant_delete_all_too_many_posts:
+          one: "Non posso cancellare tutti i post perché l'utente ha più di 1 post. (L'impostazione delete_all_posts_max.)"
+          other: "Non posso cancellare tutti i post perché l'utente ha più di %{count} post. (L'impostazione delete_all_posts_max.)"
         delete_confirm: "sei SICURO che vuoi cancellare questo utente. Non è possibile tornare indietro!"
         delete_and_block: "<b>Si</b>, e <b>blocca</b> iscrizioni future da questa email e indirizzo IP"
         delete_dont_block: "<b>Si</b>, solo cancella l'utente"
@@ -1518,6 +1564,7 @@ it:
           files: 'File'
           trust: 'Livelli'
           security: 'Sicurezza'
+          onebox: "Onebox"
           seo: 'SEO'
           spam: 'Spam'
           rate_limits: 'Limiti'
@@ -1531,6 +1578,7 @@ it:
         new_badge: Nuova Targhetta
         new: Nuovo
         name: Nome
+        badge: Targhetta
         display_name: Visualizza Nome
         description: Descrizione
         badge_type: Tipo di Targhetta
@@ -1547,6 +1595,7 @@ it:
         grant: Assegna
         no_user_badges: "%{name} non ha ricevuto alcuna targhetta."
         no_badges: Non ci sono targhette da assegnare.
+        allow_title: Permetti di utilizzare le targhette come titoli
     lightbox:
       download: "Scaricamento"
     keyboard_shortcuts_help:
@@ -1588,6 +1637,17 @@ it:
         mark_tracking: '<b>m</b> then <b>t</b> Contrassegna il topic come "Seguito"'
         mark_watching: '<b>m</b> quindi <b>w</b> Contrassegna il topic come "sotto osservazione"'
     badges:
+      title: Targhette
+      badge_count:
+        one: "1 Targhetta"
+        other: "%{count} Targhette"
+      more_badges:
+        one: "+1 Più"
+        other: "+%{count} Più"
+      granted:
+        one: "1 assegnato"
+        other: "%{count} assegnati"
+      select_badge_for_title: Scegli una targhetta da usare come tuo titolo
       example_badge:
         name: Targhetta Esempio
         description: Questa è una targhetta generica d'esempio

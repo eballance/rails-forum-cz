@@ -64,9 +64,9 @@ Discourse.PostView = Discourse.GroupedView.extend(Ember.Evented, {
   repliesShown: Em.computed.gt('post.replies.length', 0),
 
   updateQuoteElements: function($aside, desc) {
-    var navLink = "";
-    var quoteTitle = I18n.t("post.follow_quote");
-    var postNumber = $aside.data('post');
+    var navLink = "",
+        quoteTitle = I18n.t("post.follow_quote"),
+        postNumber = $aside.data('post');
 
     if (postNumber) {
 
@@ -94,7 +94,7 @@ Discourse.PostView = Discourse.GroupedView.extend(Ember.Evented, {
       expandContract = "<i class='fa fa-" + desc + "' title='" + I18n.t("post.expand_collapse") + "'></i>";
       $aside.css('cursor', 'pointer');
     }
-    $('.quote-controls', $aside).html("" + expandContract + navLink);
+    $('.quote-controls', $aside).html(expandContract + navLink);
   },
 
   toggleQuote: function($aside) {
@@ -137,9 +137,9 @@ Discourse.PostView = Discourse.GroupedView.extend(Ember.Evented, {
 
       self.$(".cooked a[href]").each(function() {
         var link = $(this);
-        if (link.attr('href') === lc.url) {
+        if (!lc.internal && link.attr('href') === lc.url) {
           // don't display badge counts on category badge
-          if (link.closest('.badge-category').length === 0 && (link.closest(".onebox-result").length === 0 || link.hasClass("track-link"))) {
+          if (link.closest('.badge-category').length === 0 && ((link.closest(".onebox-result").length === 0 && link.closest('.onebox-body').length === 0) || link.hasClass("track-link"))) {
             link.append("<span class='badge badge-notification clicks' title='" +
                         I18n.t("topic_map.clicks", {count: lc.clicks}) +
                         "'>" + Discourse.Formatter.number(lc.clicks) + "</span>");
@@ -189,16 +189,18 @@ Discourse.PostView = Discourse.GroupedView.extend(Ember.Evented, {
     var self = this;
     return this.$('aside.quote').each(function(i, e) {
       var $aside = $(e);
-      self.updateQuoteElements($aside, 'chevron-down');
-      var $title = $('.title', $aside);
+      if ($aside.data('post')) {
+        self.updateQuoteElements($aside, 'chevron-down');
+        var $title = $('.title', $aside);
 
-      // Unless it's a full quote, allow click to expand
-      if (!($aside.data('full') || $title.data('has-quote-controls'))) {
-        $title.on('click', function(e) {
-          if ($(e.target).is('a')) return true;
-          self.toggleQuote($aside);
-        });
-        $title.data('has-quote-controls', true);
+        // Unless it's a full quote, allow click to expand
+        if (!($aside.data('full') || $title.data('has-quote-controls'))) {
+          $title.on('click', function(e) {
+            if ($(e.target).is('a')) return true;
+            self.toggleQuote($aside);
+          });
+          $title.data('has-quote-controls', true);
+        }
       }
     });
   },

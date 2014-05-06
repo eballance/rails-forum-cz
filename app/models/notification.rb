@@ -28,7 +28,7 @@ class Notification < ActiveRecord::Base
     @types ||= Enum.new(
       :mentioned, :replied, :quoted, :edited, :liked, :private_message,
       :invited_to_private_message, :invitee_accepted, :posted, :moved_post,
-      :linked
+      :linked, :granted_badge
     )
   end
 
@@ -142,8 +142,8 @@ end
 #  user_id           :integer          not null
 #  data              :string(1000)     not null
 #  read              :boolean          default(FALSE), not null
-#  created_at        :datetime
-#  updated_at        :datetime
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #  topic_id          :integer
 #  post_number       :integer
 #  post_action_id    :integer

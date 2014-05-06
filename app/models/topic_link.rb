@@ -182,10 +182,10 @@ class TopicLink < ActiveRecord::Base
 
       # Remove links that aren't there anymore
       if added_urls.present?
-        TopicLink.delete_all ["(url not in (:urls)) AND (post_id = :post_id)", urls: added_urls, post_id: post.id]
-        TopicLink.delete_all ["(url not in (:urls)) AND (link_post_id = :post_id)", urls: reflected_urls, post_id: post.id]
+        TopicLink.delete_all ["(url not in (:urls)) AND (post_id = :post_id AND NOT reflection)", urls: added_urls, post_id: post.id]
+        TopicLink.delete_all ["(url not in (:urls)) AND (link_post_id = :post_id AND reflection)", urls: reflected_urls, post_id: post.id]
       else
-        TopicLink.delete_all ["post_id = :post_id OR link_post_id = :post_id", post_id: post.id]
+        TopicLink.delete_all ["(post_id = :post_id AND NOT reflection) OR (link_post_id = :post_id AND reflection)", post_id: post.id]
       end
     end
   end
@@ -208,8 +208,8 @@ end
 #  domain        :string(100)      not null
 #  internal      :boolean          default(FALSE), not null
 #  link_topic_id :integer
-#  created_at    :datetime
-#  updated_at    :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #  reflection    :boolean          default(FALSE)
 #  clicks        :integer          default(0), not null
 #  link_post_id  :integer
@@ -218,6 +218,6 @@ end
 #
 # Indexes
 #
-#  index_topic_links_on_topic_id  (topic_id)
-#  unique_post_links              (topic_id,post_id,url) UNIQUE
+#  index_forum_thread_links_on_forum_thread_id                      (topic_id)
+#  index_forum_thread_links_on_forum_thread_id_and_post_id_and_url  (topic_id,post_id,url) UNIQUE
 #

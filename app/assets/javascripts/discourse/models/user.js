@@ -8,6 +8,10 @@
 **/
 Discourse.User = Discourse.Model.extend({
 
+  hasPMs: Em.computed.gt("private_messages_stats.all", 0),
+  hasStartedPMs: Em.computed.gt("private_messages_stats.mine", 0),
+  hasUnreadPMs: Em.computed.gt("private_messages_stats.unread", 0),
+
   /**
     The user's stream
 
@@ -281,17 +285,6 @@ Discourse.User = Discourse.Model.extend({
     return this.get('stats').rejectProperty('isPM');
   }.property('stats.@each.isPM'),
 
-  /**
-  This user's stats, only including PMs.
-
-    @property statsPmsOnly
-    @type {Array}
-  **/
-  statsPmsOnly: function() {
-    if (this.blank('stats')) return [];
-    return this.get('stats').filterProperty('isPM');
-  }.property('stats.@each.isPM'),
-
 
   findDetails: function() {
     var user = this;
@@ -312,8 +305,19 @@ Discourse.User = Discourse.Model.extend({
           return Discourse.Group.create(g);
         });
       }
+
       if (json.user.invited_by) {
         json.user.invited_by = Discourse.User.create(json.user.invited_by);
+      }
+
+      if (!Em.isEmpty(json.user.featured_user_badge_ids)) {
+        var userBadgesMap = {};
+        Discourse.UserBadge.createFromJson(json).forEach(function(userBadge) {
+          userBadgesMap[ userBadge.get('id') ] = userBadge;
+        });
+        json.user.featured_user_badges = json.user.featured_user_badge_ids.map(function(id) {
+          return userBadgesMap[id];
+        });
       }
 
       user.setProperties(json.user);
@@ -377,16 +381,6 @@ Discourse.User = Discourse.Model.extend({
       data: {email: email}
     });
   },
-
-  /**
-    Homepage of the user
-
-    @property homepage
-    @type {String}
-  **/
-  homepage: function() {
-    return this.get("should_be_redirected_to_top") ? "top" : Discourse.Utilities.defaultHomepage();
-  }.property("should_be_redirected_to_top"),
 
   updateMutedCategories: function() {
     this.set("mutedCategories", Discourse.Category.findByIds(this.muted_category_ids));

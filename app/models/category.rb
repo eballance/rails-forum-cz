@@ -1,8 +1,7 @@
-require_dependency "concern/positionable"
-
 class Category < ActiveRecord::Base
 
-  include Concern::Positionable
+  include Positionable
+  include HasCustomFields
 
   belongs_to :topic, dependent: :destroy
   belongs_to :topic_only_relative_url,
@@ -334,8 +333,8 @@ end
 #  color                    :string(6)        default("AB9364"), not null
 #  topic_id                 :integer
 #  topic_count              :integer          default(0), not null
-#  created_at               :datetime
-#  updated_at               :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
 #  user_id                  :integer          not null
 #  topics_year              :integer          default(0)
 #  topics_month             :integer          default(0)
@@ -360,7 +359,7 @@ end
 #
 # Indexes
 #
-#  index_categories_on_email_in     (email_in) UNIQUE
-#  index_categories_on_name         (name) UNIQUE
-#  index_categories_on_topic_count  (topic_count)
+#  index_categories_on_email_in            (email_in) UNIQUE
+#  index_categories_on_forum_thread_count  (topic_count)
+#  index_categories_on_name                (name) UNIQUE
 #

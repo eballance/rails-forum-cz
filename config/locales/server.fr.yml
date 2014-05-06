@@ -1,3 +1,10 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+# To work with us on translations, join this project:
+# https://www.transifex.com/projects/p/discourse-pt-br/
+
 fr:
   dates:
     short_date_no_year: "D MMM"
@@ -13,7 +20,7 @@ fr:
   posts: "messages"
   loading: "Chargement"
   powered_by_html: 'Propulsé par <a href="http://www.discourse.org">Discourse</a>, le rendu est meilleur avec le JavaScript activé'
-  log_in: "Connexion"
+  log_in: "Se connecter"
   via: "%{username} via %{site_name}"
   is_reserved: "est réservé"
   errors:
@@ -43,14 +50,14 @@ fr:
       other: "%{count} réponses"
   too_many_mentions:
     zero: "Désolé, vous ne pouvez pas mentionner d'utilisateur."
-    one: "Désolé, vous ne pouvez mentionner qu'un seul utilisateur dans un message."
-    other: "Désolé, vous ne pouvez mentionner que %{count} utilisateurs dans un message."
+    one: "Désolé, vous ne pouvez mentionner qu'un seul utilisateur."
+    other: "Désolé, vous ne pouvez mentionner que %{count} utilisateurs."
   too_many_mentions_newuser:
     zero: "Désolé, les nouveaux utilisateurs ne peuvent pas mentionner d'utilisateur."
-    one: "Désolé, les nouveaux utilisateurs ne peuvent mentionner qu'un seul utilisateur dans un message."
-    other: "Désolé, les nouveaux utilisateurs ne peuvent mentionner que %{count} utilisateurs dans un message."
+    one: "Désolé, les nouveaux utilisateurs ne peuvent mentionner qu'un seul utilisateur."
+    other: "Désolé, les nouveaux utilisateurs ne peuvent mentionner que %{count} utilisateurs."
   too_many_images:
-    zero: "Désolé, les nouveaux utilisateurs ne peuvent pas ajouter d'image dans les messages."
+    zero: "Désolé, les nouveaux utilisateurs ne peuvent pas ajouter d'image."
     one: "Désolé, les nouveaux utilisateurs ne peuvent ajouter qu'une seule image."
     other: "Désolé, les nouveaux utilisateurs ne peuvent ajouter que %{count} images."
   too_many_attachments:
@@ -72,7 +79,7 @@ fr:
   by: "Par"
   topics_in_category: "Sujets dans la catégorie '%{category}'"
   rss_posts_in_topic: "Flux RSS de '%{topic}'"
-  rss_topics_in_category: "Flux RSS des sujets de la catégorie '%{category}'"
+  rss_topics_in_category: "Flux RSS des sujets dans la catégorie '%{category}'"
   author_wrote: "%{author} a écrit :"
   num_posts: "Messages :"
   num_participants: "Participants :"
@@ -138,7 +145,12 @@ fr:
       Vous pouvez utilisez vos précédentes réponses pour ajouter une citation en surlignant et en cliquant sur le bouton <b>Citer</b>.
 
       Il est plus facile pour tout le monde de lire des sujets avec peu de réponses mais traités avec profondeur que beaucoup de réponses individuelles courtes.
-    dominating_topic: "### Laisser les autres se joindre à la conversation \n\nCe sujet est évidemment important pour vous &ndash; vous avez posté plus de %{percent}% des réponses ici.\n\nÊtes-vous sûr de laissez suffisamment de temps aux autres personnes afin qu'elles partagent aussi leurs points de vue ? \n"
+    dominating_topic: |
+      ### Laisser les autres se joindre à la conversation
+
+      Ce sujet est évidemment important pour vous &ndash; vous avez posté plus de %{percent}% des réponses ici.
+
+      Êtes-vous sûr de laissez suffisamment de temps aux autres personnes afin qu'elles partagent aussi leurs points de vue?
     too_many_replies: "# # # Vous avez atteint la limite de réponse pour ce sujet\n\nNous sommes désolés, mais les nouveaux utilisateurs sont limités temporairement à %{newuser_max_replies_per_topic} réponses par sujet. \n\nAu lieu d'ajouter une autre réponse, veuillez envisager de modifier vos réponses précédentes, ou visiter d'autres sujets.\n"
     reviving_old_topic: |
       ### Déterrer ce sujet ?
@@ -149,7 +161,7 @@ fr:
   activerecord:
     attributes:
       category:
-        name: "Nom de catégorie"
+        name: "Nom de la catégorie"
       post:
         raw: "Corps"
     errors:
@@ -176,7 +188,7 @@ fr:
   meta_category_description: "Discussion sur ce forum, son organisation, son fonctionnement, et comment nous pouvons l'améliorer."
   staff_category_name: "Staff"
   staff_category_description: "Catégorie privée pour les discussions du staff. Les sujets ne sont visibles que pour les admins et les modérateurs."
-  assets_topic_body: "C'est un sujet pour stocker les éléments utilisés dans la design du forum. Ne pas supprimer!"
+  assets_topic_body: "Ceci est un sujet permanent, visible uniquement par l'équipe, pour stocker les images et fichiers utilisés pour le design du forum. Ne pas le supprimer !\n\n\nMarche à suivre:\n\n1. Répondre à ce sujet\n2. Envoyer toutes les images que vous voulez utilisés comme logos, favicons, et tout ce que vous souhaitez. (Utiliser l'icone dans la barre d'édition ou glisser-déposer ou coller les images)\n3. Envoyer votre réponse\n4. Afin d'obtenir le chemin complet de votre image, faites un clic-droit dessus ou éditer votre message et copier le chemin.\n5. Coller le chemin de l'image dans les [paramètres requis](/admin/site_settings/category/required).\n\nDe plus, si vous souhaitez envoyer d'autres formats de fichier, modifier l'option `authorized_extensions` dans les [paramètres de fichier](/admin/site_settings/category/files)."
   category:
     topic_prefix: "A propos de la catégorie %{category}"
     replace_paragraph: "[Remplacez ce premier paragraphe par une courte description de votre nouvelle catégorie. Ce texte apparaît dans la zone de sélection de catégorie, alors essayez de le maintenir en dessous de 200 caractères. Cette catégorie n'apparaîtra pas sur la page de des catégories tant que vous modifiez ce texte ou jusqu'à ce que vous créeriez des sujets.]"
@@ -264,7 +276,7 @@ fr:
         one: "il y a un jour"
         other: "il y a %{count} jours"
       about_x_months:
-        one: "il y a environ 1 mois"
+        one: "il y a environ un mois"
         other: "il y a environ %{count} mois"
       x_months:
         one: "il y a un mois"
@@ -295,7 +307,7 @@ fr:
   activation:
     already_done: "Désolé, ce lien de confirmation n'est plus valide. Votre compte est peut-être déjà activé ?"
     please_continue: "Votre nouveau compte est activé, et vous êtes connecté. Continuer vers %{link}"
-    welcome_to: "Bienvenue sur %{site_name}!"
+    welcome_to: "Bienvenue sur %{site_name} !"
     approval_required: "Un modérateur doit approuver manuellement votre nouveau compte avant que vous accédiez au forum. Vous recevrez un mail lorsque que votre compte sera approuvé !"
   post_action_types:
     off_topic:
@@ -514,7 +526,7 @@ fr:
       description: "Le message qui apparaît à côté d'une case à cocher sur le formulaire d'inscription si le paramètre de site tos_accept_required est activé."
   site_settings:
     default_locale: "Le langage par défaut de cette instance de Discourse (code ISO 639-1)"
-    allow_user_locale: "Autoriser les utilisateurs à choisir leur langue de l'interface de préférence."
+    allow_user_locale: "Autoriser les utilisateurs à choisir la langue de l'interface dans leur préférences."
     min_post_length: "Longueur minimale des messages en nombre de caractères"
     min_private_message_post_length: "Longueur minimale des messages privés en nombre de caractères"
     max_post_length: "Longueur maximale des messages en nombres de caractères"
@@ -522,8 +534,8 @@ fr:
     max_topic_title_length: "Longueur maximale des titres de sujet en nombre de caractères"
     min_private_message_title_length: "Longueur mimimale pour un titre de message privé en nombre de caractères"
     min_search_term_length: "Longueur mimimale du texte saisie avant de lancer une recherche"
-    allow_uncategorized_topics: "Permettre la création de sujet sans catégorie."
-    allow_duplicate_topic_titles: "Permettre la création de sujet avec le même titre"
+    allow_uncategorized_topics: "Autoriser la création de sujet sans catégorie."
+    allow_duplicate_topic_titles: "Autoriser la création de sujet avec le même titre"
     unique_posts_mins: "Combien de temps avant qu'un utilisateur puisse poster le même contenu à nouveau"
     enforce_global_nicknames: "Imposer un pseudo global unique. (ATTENTION: fonctionne uniquement pendant la phase initiale de paramétrage)"
     discourse_org_access_key: "La clé d'accès utilisée pour accéder au registre Discourse Hub de pseudos de discourse.org"
@@ -538,16 +550,19 @@ fr:
     crawl_images: "Permettre aux images provenant de sources tierces d'insérer la hauteur et la largeur de celles-ci"
     download_remote_images_to_local: "Téléchargez une copie des images distantes référencées dans les messages"
     download_remote_images_threshold: "Quantité d'espace disque disponible minimum requise pour télécharger localement des images distantes  (en pour cent)"
+    disabled_image_download_domains: "Une liste délimitée par un pipe (|) des domaines pour lesquels les images ne seront jamais téléchargé localement."
     ninja_edit_window: "Temps d'édition avant de sauvegarder une nouvelle version, en secondes."
     post_edit_time_limit: "Temps en minutes durant lequel les messages peuvent être modifiés et supprimés par l'auteur. Mettre à 0 pour permettre l'édition et la suppression des messages à tout moment."
-    edit_history_visible_to_public: "Permettre à tout le monde de voir les versions précédentes d'un posté édité. Quand désactivé, seuls les membres de l'équipe peuvent consulter l'historique des éditions."
+    edit_history_visible_to_public: "Autoriser tout le monde à voir les versions précédentes d'un posté édité. Quand désactivé, seuls les membres de l'équipe peuvent consulter l'historique des éditions."
     delete_removed_posts_after: "Nombre d'heures après lesquelles des messages supprimés par leur auteur seront supprimés."
     max_image_width: "Largeur maximale des images d'un message"
     max_image_height: "Hauteur maximale autorisée des images dans un message"
     category_featured_topics: "Nombre de sujets affichés par catégorie sur la page /categories. Après avoir modifié cette valeur, il faut jusqu'à 15 minutes pour la page categories soit mise à jour."
     add_rel_nofollow_to_user_content: "Ajouter rel nofollow à tous les contenus des utilisateurs, sauf les liens internes (incluant les domaines parents) Modifier ceci requiert une mise à jour de tout votre markdown commande rake posts:rebake"
+    exclude_rel_nofollow_domains: "Une liste contenant les noms de domaines - séparée par des pipes | - pour lesquels l'attribut nofollow ne sera pas ajouté (tld.com autorisera sub.tld.com automatiquement)"
     post_excerpt_maxlength: "Longueur maximale d'un extrait de message"
     post_onebox_maxlength: "Longueur maximale d'un message emboîté."
+    onebox_domains_whitelist: "Liste des noms de domaines autorisés pour les 'onebox'. (Example eviltrout.com)"
     category_post_template: "Le modèle de message utilisé lorsque vous créez une nouvelle catégorie"
     logo_url: "Le logo de votre site, par exemple : http://example.com/logo.png"
     digest_logo_url: "Le logo qui sera utilisé dans les emails de votre site. Si non renseigné, alors `logo_url` sera utilisé, par exemple : http://example.com/logo.png"
@@ -585,6 +600,7 @@ fr:
     ga_universal_domain_name: "Google Analytics Universal (analytics.js) nom de domaine, par exemple: monsite.com; voir http://google.com/analytics"
     enable_escaped_fragments: "Revenir à l'API Ajax-Crawling de Google si un robot n'est pas détecté."
     enable_noscript_support: "Activer le support des moteurs de recherches standards via le tag noscript"
+    allow_moderators_to_create_categories: "Autoriser les modérateurs à créer de nouvelles catégories"
     top_menu: "Déterminer les éléments qui apparaissent dans la navigation de la page d'accueil, et dans quel ordre. Exemple latest|new|unread|starred|categories|top|read|posted"
     post_menu: "L'ordre des éléments dans le menu de rédaction. Exemple like|edit|flag|delete|share|bookmark|reply"
     share_links: "Liste ordonnée des boutons de partage. Exemple : twitter|facebook|google+|email"
@@ -652,7 +668,7 @@ fr:
     clean_orphan_uploads_grace_period_hours: "La période de grâce (en heures) avant qu'un téléchargement orphelin soit retiré."
     purge_deleted_uploads_grace_period_days: "La période de grâce (en jours) avant qu'un transfert supprimé soit effacé."
     enable_s3_uploads: "Placer les fichiers sur Amazon S3"
-    s3_upload_bucket: "Le bucket name Amazon S3 qui contiendra les fichiers téléchargés. ATTENTION : doit être en minuscule (cf. http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html)"
+    s3_upload_bucket: "Le nom du bucket Amazon S3 qui contiendra les fichiers téléchargés. ATTENTION : doit être en minuscule, sans périodes."
     s3_access_key_id: "L' access key Amazon S3 qui sera utilisée pour uploader les images"
     s3_secret_access_key: "La clé secrète Amazon S3 qui va être utilisée pour uploader des images"
     s3_region: "Le nom de la région Amazon S3 qui va être utilisée pour uploader des images"
@@ -674,7 +690,7 @@ fr:
     newuser_max_images: "Combien d'images un nouvel utilisateur peut-il ajouter à un message"
     newuser_max_attachments: "Combien de fichiers un nouvel utilisateur peut-il ajouter à un message"
     newuser_max_mentions_per_post: "Nombre maximal de @pseudo qu'un nouvel utilisateur peut mentionner dans un message"
-    newuser_max_replies_per_topic: "Nombre maximum de réponses qu'un nouvel utilisateur peut faire par sujet"
+    newuser_max_replies_per_topic: "Nombre maximum de réponses qu'un nouvel utilisateur peut faire dans une même discussion avant que quelqu'un lui réponde"
     max_mentions_per_post: "Nombre maximal de @pseudo qu'un utilisateur peut mentionner dans un message"
     create_thumbnails: "Créer un aperçu pour les images imbriquées"
     email_time_window_mins: "Combien de minutes devons nous attendre avant d'envoyer des notifications de réponse par emails, pour donner une chance à l'utilisateur d'éditer et de finaliser leurs messages."
@@ -689,9 +705,10 @@ fr:
     category_colors: "Une liste de couleurs autorisées pour les catégories (au format hexadécimal, séparés par un |)"
     max_image_size_kb: "La taille maximale des images que nous permettons aux utilisateurs d'envoyer (en Ko) - configure la limite dans nginx (client_max_body_size) / apache ou proxy aussi."
     max_attachment_size_kb: "La taille maximale des fichiers que nous permettons aux utilisateurs d'envoyer (en Ko) - configure la limite dans nginx (client_max_body_size) / apache ou proxy aussi."
-    authorized_extensions: "Une liste d'extensions de fichier autorisées pour les envois de fichiers (séparés par un |)"
+    authorized_extensions: "Une liste de pipes (|) des extensions de fichier autorisées pour les envois sur le serveur ('*' pour autoriser tout les types)"
     max_similar_results: "Nombre de sujets similaires à afficher lorsqu'un utilisateur est en train de créer un nouveau sujet"
     title_prettify: "Corrige les coquilles les plus communes dans les titres (intégralité du titre en majuscule, première lettre en minuscule, de multiples ! et ?, un . inutile à la fin, etc.)"
+    title_sanitize: "Supprimer les éléments html des titres"
     topic_views_heat_low: "Le nombre de vues à partir duquel le niveau d'intensité du sujet est : faible."
     topic_views_heat_medium: "Le nombre de vues à partir duquel le niveau d'intensité du sujet est : moyen."
     topic_views_heat_high: "Le nombre de vues à partir duquel le niveau d'intensité du sujet est : élevé."
@@ -699,6 +716,7 @@ fr:
     tos_url: "Si vous disposez déjà de CGV, hébergées ailleurs, que vous souhaitez utiliser, vous pouvez renseigner leur URL complète ici."
     privacy_policy_url: "Si vous disposez déjà d'une politique de confidentialité, hébergée ailleurs, que vous voulez utiliser, vous pouvez renseigner son URL complète ici."
     newuser_spam_host_threshold: "Limite du nombre de liens vers un même host compris dans `newuser_spam_host_posts` qu'un nouvel utilisateur peut insérer dans un message avant d'être considérer comme un SPAM."
+    white_listed_spam_host_domains: "Une liste contenant les noms de domaines - séparée par des pipes | - exclus des hôtes testés comme spam, les nouveaux utilisateurs seront en mesure de créer un nombre illimité de messages avec des liens vers ce domaine"
     staff_like_weight: "Poids supplémentaire donné aux Likes du staff lors d'une recherche."
     reply_by_email_enabled: "Activer répondre aux sujets via email"
     reply_by_email_address: "Modèle pour la réponse par adresse email entrante; exemple : %{reply_key}@reply.example.com ou replies+%{reply_key}@example.com"
@@ -712,27 +730,28 @@ fr:
     email_in_min_trust: "Le niveau de confiance minimum qu'un utilisateur doit avoir pour être autorisés à poster de nouveaux sujets par e-mail"
     email_in_category: "La catégorie où les nouveaux e-mails seront affichés"
     email_prefix: "Le [label] qui sera utiliser dans le sujet des emails. Par défaut il prend la valeur de 'title'"
-    minimum_topics_similar: "Combien de sujets ont besoin d'existé dans la base de données avant que des sujets similaires soit présentés."
+    minimum_topics_similar: "Combien de sujets ont besoin d'exister dans la base de données avant que des sujets similaires soit présentés."
     relative_date_duration: "Nombre de jours après la création d'un message à partir desquels les dates seront affichées en absolu plutôt qu'en relatif. Exemple: relatif : 7j, absolut : 20 Fév"
     delete_user_max_post_age: "L'âge maximum du premier message d'un utilisateur, en jours, qui permet de supprimer un utilisateur."
     delete_all_posts_max: "Le nombre maximum de messages qui peuvent être supprimer en une seule fois avec le bouton Supprimer tous les messages. Si un utilisateur a plus que ce nombre de messages, les messages ses messages ne pourront pas être supprimé en une seul fois et l'utilisateur ne pourra pas être supprimé."
     username_change_period: "Le nombre de jours après l'enregistrement que les comptes peuvent changer leur nom d'utilisateur (0 pour empêcher le changement de pseudo)."
-    email_editable: "Permettre aux utilisateurs de changer leur adresse e-mail après l'inscription."
-    allow_uploaded_avatars: "Permettre aux utilisateurs de charger leurs propres avatars."
-    allow_animated_avatars: "Permettre aux utilisateurs d'utiliser des avatars avec des gif animés. ATTENTION: il est hautement recommandé d'exécuter la tâche rake avatars:regenerate après avoir changé ce paramètre."
+    email_editable: "Autoriser les utilisateurs à changer leur adresse e-mail après l'inscription."
+    allow_uploaded_avatars: "Autoriser les utilisateurs d'envoyer leurs propres avatars."
+    allow_animated_avatars: "Autoriser les utilisateurs à utiliser des avatars avec des gif animés. ATTENTION: il est hautement recommandé d'exécuter la tâche rake avatars:regenerate après avoir changé ce paramètre."
+    digest_topics: "Le nombre maximum de sujets à afficher dans l'email de résumé"
     digest_min_excerpt_length: "Combien de caractères nous visons pour chaque message dans l'e-mail résumé"
     default_digest_email_frequency: "A quelle fréquence les utilisateurs reçoivent-ils les emails par défaut. Ils peuvent changer ce paramétrage dans leur préférences."
     default_external_links_in_new_tab: "Les liens externes s'ouvrent dans un nouvel onglet. Les utilisateurs peuvent modifier ceci dans leurs préférences."
     detect_custom_avatars: "Vérifier ou pas que les utilisateurs ont envoyés des avatars personnalisés."
     max_daily_gravatar_crawls: "Le nombre maximal de fois que Discourse vérifiera gravatar pour des avatars personnalisés en une journée"
-    allow_profile_backgrounds: "Permettre aux utilisateurs d'envoyer des arrières-plans de profil"
+    allow_profile_backgrounds: "Autoriser les utilisateurs à envoyer des arrières-plans de profil"
     sequential_replies_threshold: "Le nombre de messages qu'un utilisateur doit poster d'affilé dans un sujet avant d'être notifié"
     enable_mobile_theme: "Les appareils mobiles utilisent un thème adapté aux mobiles, avec la possibilité de passer à la totalité du site. Désactivez cette option si vous voulez utiliser une feuille de style personnalisée qui réponde à tous les types de clients."
     dominating_topic_minimum_percent: "Quel est le pourcentage de messages d'un utilisateur doit poster dans un sujet avant que nous considérions qu'il est dominant."
     suppress_uncategorized_badge: "Ne pas afficher le badge pour les sujets non catégorisés dans les listes des sujets"
     min_posts_for_search_in_topic: "Désactiver la recherche dans les sujets si les sujets ont moins du minimum de messages"
     global_notice: "Affiche un bandeau global pour tout les utilisateurs du site, laissez vide pour le caché (HTML autorisé)"
-    enable_names: "Permettre aux utilisateurs d'afficher leurs noms et prénoms"
+    enable_names: "Autoriser les utilisateurs à afficher leur nom complet"
     display_name_on_posts: "Afficher également le nom complet de l'utilisateur dans ses messages"
     invites_shown: "Nombre maximum d'invitations affichées sur une page utilisateur"
     short_progress_text_threshold: "Si le nombre de messages dans un sujet dépasse ce nombre, la barre de progression affichera uniquement le numéro de message actuel. Si vous modifiez la largeur de la barre de progression, vous devez peut changer cette valeur."
@@ -746,6 +765,8 @@ fr:
     embed_truncate: "Tronquer les messages importés"
     embed_category: "Catégorie des sujets créés"
     embed_post_limit: "Le nombre maximum de messages à incorporer"
+    embed_whitelist_selector: "selecteur css pour les éléments qui seront autorisés dans les contenus intégrés"
+    embed_blacklist_selector: "selecteur css pour les éléments qui seront interdits dans les contenus intégrés"
     tos_accept_required: "Si il est activé, les utilisateurs devront cocher une case sur le formulaire d'inscription pour confirmer qu'ils acceptent les conditions de service. Modifier \"Formulaire d'inscription : Message des Conditions d'utilisation» dans l'onglet Contenu pour modifier le message."
     notify_about_flags_after: "Si il y a des signalements qui n'ont pas été traités après ce nombre d'heure, envoyer un email à contact_email.  Désactiver la fonctionnalité en indiquant: 0."
   notification_types:
@@ -760,6 +781,7 @@ fr:
     invited_to_private_message: "%{display_username} vous a invité dans une conversation privée: %{link}"
     invitee_accepted: "%{display_username} a accepté votre invitation"
     linked: "%{display_username} a mentionné l'un de vos messages : %{link}"
+    granted_badge: "Vous avez obtenu le badge %{link}"
   search:
     within_post: "#%{post_number} par %{username}: %{excerpt}"
     types:
@@ -780,6 +802,8 @@ fr:
     existing_topic_moderator_post:
       one: "J'ai déplacé un message dans le sujet : %{topic_link}"
       other: "J'ai déplacé %{count} messages dans le sujet : %{topic_link}"
+  change_owner:
+    post_revision_text: "Auteur du message modifié de %{old_user} vers %{new_user}"
   topic_statuses:
     archived_enabled: "Ce sujet est maintenant archivé. Il est gelé et ne peut plus être modifié d'aucune façon."
     archived_disabled: "Ce sujet est maintenant désarchivé. Il n'est plus gelé, et peut être modifié."
@@ -798,9 +822,9 @@ fr:
       one: "Ce sujet a été automatiquement fermé après 1 minute. Aucune réponse n'est permise dorénavant."
       other: "Ce sujet a été automatiquement fermé après %{count} minutes. Aucune réponse n'est permise dorénavant."
     autoclosed_disabled: "Ce sujet est maintenant ouvert. Vous pouvez y participer."
-    pinned_enabled: "Ce sujet est maintenant épinglé. Il apparaîtra en haut de sa catégorie jusqu'à ce qu'il soit désépinglé par un modérateur, ou par chaque utilisateur utilisant le bouton Désépingler."
+    pinned_enabled: "Ce sujet est maintenant épinglé. Il apparaîtra en haut de sa catégorie jusqu'à ce qu'il soit désépinglé par un modérateur, ou individuellement par les utilisateurs eux-mêmes."
     pinned_disabled: "Ce sujet est maintenant désépinglé. Il n'apparaîtra plus en haut de sa categorie."
-    pinned_globally_enabled: "Ce sujet est maintenant épinglée pour tous. Il apparaîtra en haut de sa catégorie et de chaque liste de sujets jusqu'à ce qu'il soit désépinglé par un modérateur, ou en utilisant le bouton Désépingler."
+    pinned_globally_enabled: "Ce sujet est maintenant épinglée pour tous. Il apparaîtra en haut de sa catégorie et de chaque liste de sujets jusqu'à ce qu'il soit désépinglé par un modérateur, ou individuellement par les utilisateurs eux-mêmes."
     pinned_globally_disabled: "Ce sujet est maintenant désépinglé. Il n'apparaîtra plus en haut de sa catégorie."
     visible_enabled: "Ce sujet est maintenant visible. Il sera affiché dans la liste des sujets."
     visible_disabled: "Ce sujet est maintenant invisible. Il ne sera plus affichée dans la liste des sujets. Le seul moyen d'y accéder est par lien direct."
@@ -838,7 +862,7 @@ fr:
 
       Si cela vous intéresse, cliquez sur le lien ci-dessous pour suivre la conversation :
 
-      [Visit %{site_name}][1]
+      [Visiter %{site_name}][1]
 
       Vous avez été invité(e) par un utilisateur de confiance, donc vous avez la possibilité de répondre sans même avoir besoin de vous connecter.
 
@@ -850,7 +874,7 @@ fr:
 
       Si cela vous intéresse, cliquez sur le lien ci-dessous pour le/la rejoindre :
 
-      [Visit %{site_name}][1]
+      [Visiter %{site_name}][1]
 
       Vous avez été invité(e) par un utilisateur de confiance, donc vous avez la possibilité de répondre sans même avoir besoin de vous connecter.
 
@@ -1114,6 +1138,9 @@ fr:
         Il y a de nouvelles inscriptions utilisateurs en attente d'approbation (ou rejet) avant d'avoir accès à ce forum.
 
         [Veuillez les viser dans la section d'administration](%{base_url}/admin/users/list/pending).
+    download_remote_images_disabled:
+      subject_template: "Téléchargement d'images distantes désactivé"
+      text_body_template: "Le paramètre `download_remote_images_to_local` à été désactivé car la limite (`download_remote_images_threshold`) d'espace disque utilisé par les images vient d'être dépassée."
   unsubscribe_link: "Si vous ne souhaitez plus recevoir ces emails, visitez vos [préférences utilisateur](%{user_preferences_url})."
   user_notifications:
     previous_discussion: "Réponses précédentes"
@@ -1177,14 +1204,16 @@ fr:
         %{respond_instructions}
     digest:
       why: "Voici un bref résumé de ce qui s'est passé sur %{site_link} depuis la dernière fois que nous vous avons vu(e) le %{last_seen_at}."
-      subject_template: "[%{site_name}] Activité du Forum pour %{date}"
+      subject_template: "[%{site_name}] Résumé du %{date}"
       new_activity: "Nouvelles activités sur vos sujets et messages :"
-      top_topics: "Sujets récents appréciés par la communautée :"
-      other_new_topics: "Autres nouveaux sujets:"
+      top_topics: "Messages populaires"
+      other_new_topics: "Sujets populaires"
       unsubscribe: "Ce mail résumé vous est transmis courtoisement par %{site_link} quand nous ne vous avons pas vu depuis quelques temps. Pour vous désabonner %{unsubscribe_link}."
       click_here: "cliquez ici"
       from: "Résumé de %{site_name}"
-      read_more: "En Lire Plus"
+      read_more: "En lire plus"
+      more_topics: "Il y a eu %{new_topics_since_seen} nouvelles discussions postées depuis votre dernière visite le %{last_seen_at}."
+      more_topics_category: "Il y a eu %{new_topics_since_seen} nouvelles discussions postées dans cette catégorie depuis votre dernière visite le %{last_seen_at}."
       posts:
         one: "1 message"
         other: "%{count} messages"
@@ -1253,9 +1282,10 @@ fr:
     signup_form_message: 'J''ai lu et j''accepte les <a href="/tos" target="_blank">Conditions d''utilisation</ a>.'
   deleted: 'supprimé'
   upload:
-    edit_reason: "Nous avons téléchargé des copies des images distantes"
+    edit_reason: "Nous avons téléchargé des copies locales des images distantes"
     unauthorized: "Désolé, le fichier que vous essayer d'envoyer n'est pas autorisé (extensions autorisés : %{authorized_extensions})."
     pasted_image_filename: "Image collée"
+    store_failure: "Erreur lors du stockage de #%{upload_id} par l'utilisateur #%{user_id}."
     attachments:
       too_large: "Désolé, le fichier que vous essayez d'envoyer est trop gros (la taillle maximale est %{max_size_kb}%ko)."
     images:

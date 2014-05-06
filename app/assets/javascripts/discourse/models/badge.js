@@ -62,14 +62,18 @@ Discourse.Badge = Discourse.Model.extend({
   **/
   updateFromJson: function(json) {
     var self = this;
-    Object.keys(json.badge).forEach(function(key) {
-      self.set(key, json.badge[key]);
-    });
-    json.badge_types.forEach(function(badgeType) {
-      if (badgeType.id === self.get('badge_type_id')) {
-        self.set('badge_type', Object.create(badgeType));
-      }
-    });
+    if (json.badge) {
+      Object.keys(json.badge).forEach(function(key) {
+        self.set(key, json.badge[key]);
+      });
+    }
+    if (json.badge_types) {
+      json.badge_types.forEach(function(badgeType) {
+        if (badgeType.id === self.get('badge_type_id')) {
+          self.set('badge_type', Object.create(badgeType));
+        }
+      });
+    }
   },
 
   /**
@@ -97,7 +101,8 @@ Discourse.Badge = Discourse.Model.extend({
       data: {
         name: this.get('name'),
         description: this.get('description'),
-        badge_type_id: this.get('badge_type_id')
+        badge_type_id: this.get('badge_type_id'),
+        allow_title: this.get('allow_title')
       }
     }).then(function(json) {
       self.updateFromJson(json);
@@ -164,8 +169,21 @@ Discourse.Badge.reopenClass({
     @returns {Promise} a promise that resolves to an array of `Discourse.Badge`
   **/
   findAll: function() {
-    return Discourse.ajax('/admin/badges').then(function(badgesJson) {
+    return Discourse.ajax('/badges.json').then(function(badgesJson) {
       return Discourse.Badge.createFromJson(badgesJson);
+    });
+  },
+
+  /**
+    Returns a `Discourse.Badge` that has the given ID.
+
+    @method findById
+    @param {Number} id ID of the badge
+    @returns {Promise} a promise that resolves to a `Discourse.Badge`
+  **/
+  findById: function(id) {
+    return Discourse.ajax("/badges/" + id).then(function(badgeJson) {
+      return Discourse.Badge.createFromJson(badgeJson);
     });
   }
 });

@@ -72,26 +72,14 @@ class SiteSetting < ActiveRecord::Base
                   .first
   end
 
-  def self.authorized_uploads
-    authorized_extensions.tr(" ", "")
-                         .split("|")
-                         .map { |extension| (extension.start_with?(".") ? extension[1..-1] : extension).gsub(".", "\.") }
-  end
+  def self.should_download_images?(src)
+    setting = disabled_image_download_domains
+    return true unless setting.present?
+    host = URI.parse(src).host
 
-  def self.authorized_upload?(file)
-    authorized_uploads.count > 0 && file.original_filename =~ /\.(#{authorized_uploads.join("|")})$/i
-  end
-
-  def self.images
-    @images ||= Set.new ["jpg", "jpeg", "png", "gif", "tif", "tiff", "bmp"]
-  end
-
-  def self.authorized_images
-    authorized_uploads.select { |extension| images.include?(extension) }
-  end
-
-  def self.authorized_image?(file)
-    authorized_images.count > 0 && file.original_filename =~ /\.(#{authorized_images.join("|")})$/i
+    return !(setting.split('|').include?(host))
+  rescue URI::InvalidURIError
+    return true
   end
 
   def self.scheme
@@ -115,6 +103,6 @@ end
 #  name       :string(255)      not null
 #  data_type  :integer          not null
 #  value      :text
-#  created_at :datetime
-#  updated_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #

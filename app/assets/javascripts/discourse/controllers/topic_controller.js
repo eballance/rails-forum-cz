@@ -13,6 +13,16 @@ Discourse.TopicController = Discourse.ObjectController.extend(Discourse.Selected
   editingTopic: false,
   selectedPosts: null,
   selectedReplies: null,
+  queryParams: ['filter', 'username_filters'],
+
+  filter: function(key, value) {
+    if (arguments.length > 1) {
+      this.set('postStream.summary', value === "summary");
+    }
+    return this.get('postStream.summary') ? "summary" : null;
+  }.property('postStream.summary'),
+
+  username_filters: Discourse.computed.queryAlias('postStream.streamFilters.username_filters'),
 
   init: function() {
     this._super();

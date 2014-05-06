@@ -1,3 +1,10 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+# To work with us on translations, join this project:
+# https://www.transifex.com/projects/p/discourse-pt-br/
+
 id:
   js:
     dates:
@@ -29,7 +36,6 @@ id:
     yes_value: "Ya"
     of_value: "dari"
     generic_error: "Maaf, terjadi kesalahan."
-    log_in: "Masuk"
     age: "Umur"
     admin_title: "Admin"
     flags_title: "Tanda"

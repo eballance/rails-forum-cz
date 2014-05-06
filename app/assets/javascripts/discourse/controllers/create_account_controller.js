@@ -324,9 +324,7 @@ Discourse.CreateAccountController = Discourse.Controller.extend(Discourse.ModalF
     });
   },
 
-  tosAcceptRequired: function() {
-    return Discourse.SiteSettings.tos_accept_required;
-  }.property(),
+  tosAcceptRequired: Discourse.computed.setting('tos_accept_required'),
 
   actions: {
     createAccount: function() {
@@ -352,7 +350,7 @@ Discourse.CreateAccountController = Discourse.Controller.extend(Discourse.ModalF
           }
           self.set('formSubmitted', false);
         }
-        if (result.active) {
+        if (result.active && !Discourse.SiteSettings.must_approve_users) {
           return window.location.reload();
         }
       }, function() {

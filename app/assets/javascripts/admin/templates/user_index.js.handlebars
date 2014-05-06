@@ -77,11 +77,17 @@
     </div>
   </div>
 
+  <div class='display-row'>
+    <div class='field'>{{i18n user.registration_ip_address.title}}</div>
+    <div class='value'>{{registration_ip_address}}</div>
+    <div class='controls'></div>
+  </div>
+
   {{#if showBadges}}
     <div class='display-row'>
       <div class='field'>{{i18n admin.badges.title}}</div>
       <div class='value'>
-        TODO featured badges
+        {{i18n badges.badge_count count=badge_count}}
       </div>
       <div class='controls'>
         {{#link-to 'adminUser.badges' this class="btn"}}{{i18n admin.badges.edit_badges}}{{/link-to}}

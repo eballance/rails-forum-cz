@@ -61,9 +61,9 @@ module PostGuardain
   # Creating Method
   def can_create_post?(parent)
     !SpamRule::AutoBlock.block?(@user) && (
-    !parent ||
-    !parent.category ||
-    Category.post_create_allowed(self).where(:id => parent.category.id).count == 1
+      !parent ||
+      !parent.category ||
+      Category.post_create_allowed(self).where(:id => parent.category.id).count == 1
     )
   end
 
@@ -116,7 +116,7 @@ module PostGuardain
 
   def can_view_post_revisions?(post)
     return false if post.nil?
-    return true if SiteSetting.edit_history_visible_to_public
+    return true if SiteSetting.edit_history_visible_to_public && !post.hidden
     authenticated? &&
       (is_staff? || @user.has_trust_level?(:elder) || @user.id == post.user_id) &&
       can_see_post?(post)

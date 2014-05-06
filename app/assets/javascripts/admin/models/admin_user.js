@@ -38,7 +38,11 @@ Discourse.AdminUser = Discourse.User.extend({
 
   deleteAllPostsExplanation: function() {
     if (!this.get('can_delete_all_posts')) {
-      return I18n.t('admin.user.cant_delete_all_posts', {count: Discourse.SiteSettings.delete_user_max_post_age});
+      if (this.get('post_count') > Discourse.SiteSettings.delete_all_posts_max) {
+        return I18n.t('admin.user.cant_delete_all_too_many_posts', {count: Discourse.SiteSettings.delete_all_posts_max});
+      } else {
+        return I18n.t('admin.user.cant_delete_all_posts', {count: Discourse.SiteSettings.delete_user_max_post_age});
+      }
     } else {
       return null;
     }
@@ -302,7 +306,7 @@ Discourse.AdminUser = Discourse.User.extend({
       }
     }, {
       "label": '<i class="fa fa-exclamation-triangle"></i> ' + I18n.t('admin.user.delete_and_block'),
-      "class": "btn",
+      "class": "btn btn-danger",
       "callback": function(){
         performDestroy(true);
       }

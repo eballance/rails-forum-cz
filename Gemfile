@@ -88,8 +88,8 @@ gem 'active_model_serializers'
 gem 'onebox'
 
 gem 'ember-rails'
-gem 'ember-source', '~> 1.2.0.1'
-gem 'handlebars-source', '~> 1.1.2'
+gem 'ember-source', '1.6.0.beta.2'
+gem 'handlebars-source', '1.3.0'
 gem 'barber'
 
 gem 'message_bus'
@@ -142,6 +142,7 @@ gem 'sanitize'
 gem 'sass'
 gem 'sidekiq'
 gem 'sidekiq-failures'
+
 gem 'sinatra', require: nil
 gem 'slim'  # required for sidekiq-web
 
@@ -217,10 +218,15 @@ gem 'puma', require: false
 gem 'rbtrace', require: false, platform: :mri
 
 # required for feed importing and embedding
+#
 gem 'ruby-readability', require: false
+
 gem 'simple-rss', require: false
 gem 'gctools', require: false, platform: :mri_21
 gem 'stackprof', require: false, platform: :mri_21
+
+# Disabled as it conflicts with our /admin/logs routes
+# gem 'logster'
 
 # perftools only works on 1.9 atm
 group :profile do

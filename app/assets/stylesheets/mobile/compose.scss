@@ -13,38 +13,7 @@ display: none;
 display: none;
 }
 
-.autocomplete {
-  z-index: 999999;
-  position: absolute;
-  width: 240px;
-  background-color: $primary_background_color;
-  border: 1px solid $primary_border_color;
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    li {
-      border-bottom: 1px solid $primary_border_color;
-      a[href] {
-        padding: 5px;
-        display: block;
-        span.username {
-          color: lighten($primary_text_color, 20%);
-        }
-        span.name {
-          font-size: 11px;
-        }
-        &.selected {
-          background-color: lighten($secondary_background_color, 60%);
-        }
-        @include hover {
-          background-color: lighten($secondary_background_color, 60%);
-          text-decoration: none;
-        }
-      }
-    }
-  }
-}
+
 
 #reply-control {
   .toggle-preview, #draft-status, #file-uploading, .mobile-file-upload {
@@ -59,20 +28,20 @@ display: none;
   #file-uploading {
     left: 51%;
     font-size: 12px;
-    color: darken($tertiary_text_color, 40%);
+    color: scale-color($secondary, $lightness: 50%);
   }
   #draft-status {
     right: 70px;
-    color: lighten($primary_text_color, 60%);
+    color: scale-color($primary, $lightness: 75%);
     &.flash {
-      color: $warning_text_color;
+      color: $danger;
     }
   }
   @include transition(height 0.4s ease);
   width: 100%;
   z-index: 1039;
   height: 0;
-  background-color: $composer_background_color;
+  background-color: scale-color($primary, $lightness: 90%);
   bottom: 0;
   font-size: 14px;
   position: fixed;
@@ -83,7 +52,7 @@ display: none;
     right: 13px;
     position: absolute;
     font-size: 15px;
-    color: lighten($primary_text_color, 35%);
+    color: scale-color($primary, $lightness: 50%);
     text-decoration: none;
     &:before {
       font-family: "FontAwesome";
@@ -118,7 +87,7 @@ display: none;
   &.draft {
     height: 60px !important;
     cursor: pointer;
-    border-top: 1px solid $primary_border_color;
+    border-top: 1px solid scale-color($primary, $lightness: 90%);
     .draft-text {
       display: block;
           position: absolute;
@@ -133,7 +102,7 @@ display: none;
   }
   &.saving {
     height: 40px !important;
-    border-top: 1px solid $primary_border_color;
+    border-top: 1px solid scale-color($primary, $lightness: 90%);
     .saving-text {
       display: block;
     }
@@ -155,7 +124,7 @@ display: none;
     height: 70px;
     text-indent: -9999em;
     background: {
-      color: $primary_text_color;
+      color: $primary;
       image: image-url("spinner_96_w.gif");
       repeat: no-repeat;
       size: 35px;
@@ -228,14 +197,14 @@ display: none;
     #reply-title {
       margin-right: 10px;
       &:disabled {
-        background-color: lighten($secondary_background_color, 60%);
+        background-color: scale-color($primary, $lightness: 75%);
       }
     }
     #wmd-input:disabled {
-      background-color: lighten($secondary_background_color, 60%);
+      background-color: scale-color($primary, $lightness: 75%);
     }
     #wmd-input, #wmd-preview {
-      color: $primary_text_color;
+      color: darken($primary, 40%);
 
       video {
         max-width: 100%;
@@ -247,7 +216,7 @@ display: none;
       }
     }
     #wmd-preview {
-      border: 1px dashed $primary_border_color;
+      border: 1px dashed scale-color($primary, $lightness: 90%);
       overflow: auto;
       visibility: visible;
       p {
@@ -287,61 +256,6 @@ display: none;
   }
 }
 
-
-
-div.ac-wrap.disabled {
-  input {
-    display:none;
-  }
-  .item a {
-    display:none;
-  }
-}
-
-div.ac-wrap {
-  background-color: $primary_background_color;
-  border: 1px solid $primary_border_color;
-  padding: 5px 10px;
-  @include border-radius-all(3px);
-  div.item {
-    float: left;
-    margin-right: 10px;
-    margin-bottom: 5px;
-    span {
-      padding-left: 5px;
-      height: 22px;
-      display: inline-block;
-      line-height: 22px;
-      vertical-align: bottom;
-    }
-    a {
-      margin-left: 4px;
-      font-size: 10px;
-      line-height: 10px;
-      padding: 2px 1px 1px 3px;
-      border-radius: 10px;
-      width: 10px;
-      display: inline-block;
-      border: 1px solid rgba(255, 255, 255, 0);
-      &:hover {
-        background-color: $warning_background_color;
-        border: 1px solid $warning_border_color;
-        text-decoration: none;
-        color: $emphasis_text_color;
-      }
-    }
-  }
-  input[type="text"] {
-    float: left;
-    margin-top: 5px;
-    border: 0;
-    padding: 0;
-    margin: 4px 0 0;
-    box-shadow: none;
-    font-size: 16px;
-  }
-}
-
 #reply-control.edit-title.private-message {
   .wmd-controls {
     @include transition(top 0.3s ease);
@@ -349,13 +263,7 @@ div.ac-wrap {
   }
 }
 
-#reply-control.topic #wmd-quote-post {
-  display: none;
-}
-
 #reply-control {
-
-
   &.hide-preview {
     .wmd-controls {
       #wmd-input {
@@ -390,7 +298,7 @@ div.ac-wrap {
       min-height: 100%;
       padding: 7px;
       margin: 0;
-      background-color: $primary_background_color;
+      background-color: $secondary;
       word-wrap: break-word;
 
       // set up proper header margins in post preview
@@ -409,7 +317,6 @@ div.ac-wrap {
       min-height: 100%;
       @include box-sizing(border-box);
       border: 0;
-      border-top: 36px solid transparent;
       @include border-radius-all(0);
       transition: none;
       font-size: 16px;
@@ -449,39 +356,8 @@ div.ac-wrap {
   #wmd-button-bar {
     top: 0;
     position: absolute;
-    border-bottom: 1px solid $primary_border_color;
-    background-color: $primary_background_color;
+    border-bottom: 1px solid scale-color($primary, $lightness: 90%);
+    background-color: $secondary;
     z-index: 100;
-  }
-}
-
-@media screen and (min-width: 1550px) {
-  #reply-control {
-    .wmd-controls {
-      width: 1450px;
-      left: auto;
-      right: auto;
-    }
-  }
-}
-
-.auto-close-fields {
-  input {
-    width: 50px;
-  }
-}
-
-.edit-auto-close-modal {
-  form {
-    margin: 0;
-  }
-  .auto-close-fields {
-    i.fa-clock-o {
-      font-size: 16px;
-      line-height: 8px;
-    }
-    input {
-      margin: 0;
-    }
   }
 }

@@ -21,10 +21,12 @@ class UserSerializer < BasicUserSerializer
              :admin,
              :title,
              :suspend_reason,
-             :suspended_till
+             :suspended_till,
+             :badge_count
 
   has_one :invited_by, embed: :object, serializer: BasicUserSerializer
   has_many :custom_groups, embed: :object, serializer: BasicGroupSerializer
+  has_many :featured_user_badges, embed: :ids, serializer: UserBadgeSerializer, root: :user_badges
 
   def self.private_attributes(*attrs)
     attributes(*attrs)
@@ -67,7 +69,8 @@ class UserSerializer < BasicUserSerializer
                      :uploaded_avatar_template,
                      :muted_category_ids,
                      :tracked_category_ids,
-                     :watched_category_ids
+                     :watched_category_ids,
+                     :private_messages_stats
 
 
   def auto_track_topics_after_msecs
@@ -128,4 +131,13 @@ class UserSerializer < BasicUserSerializer
   def watched_category_ids
     CategoryUser.lookup(object, :watching).pluck(:category_id)
   end
+
+  def private_messages_stats
+    UserAction.private_messages_stats(object.id, scope)
+  end
+
+  def bio_cooked
+    object.bio_processed
+  end
+
 end

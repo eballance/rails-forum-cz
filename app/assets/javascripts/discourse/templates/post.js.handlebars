@@ -11,17 +11,16 @@
         {{#if loadingReplyHistory}}
           {{i18n loading}}
         {{else}}
-          {{i18n post.in_reply_to}}
+          <i class="fa fa-mail-forward"></i>&nbsp;
           {{avatar reply_to_user imageSize="tiny"}}
           {{reply_to_user.username}}
         {{/if}}
       </a>
     {{/if}}
-
     <div class='topic-meta-data span2'>
       {{#unless userDeleted}}
         <div {{bind-attr class=":contents byTopicCreator:topic-creator :trigger-expansion"}}>
-          <a href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{avatar this imageSize="large"}}</a>
+          <a class="main-avatar" href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{avatar this imageSize="large"}}</a>
           <div class="names">
             <h3 {{bind-attr class="staff new_user :username"}}><a href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{{breakUp username name}}}</a></h3>
 
@@ -36,12 +35,15 @@
                 <div class="user-title" {{action showPosterExpansion this}}>{{unbound user_title}}</div>
               {{/if}}
             {{/if}}
+
           </div>
         </div>
       {{else}}
         <div class="contents">
           <i class="fa fa-trash-o deleted-user-avatar"></i>
-          <h3 class="deleted-username">{{i18n user.deleted}}</h3>
+          <div class="names">
+            <h3 class="deleted-username">{{i18n user.deleted}}</h3>
+          </div>
         </div>
       {{/unless}}
     </div>
