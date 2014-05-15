@@ -41,8 +41,12 @@ class SearchObserver < ActiveRecord::Observer
 
   def after_save(obj)
     if obj.class == Post && obj.cooked_changed?
-      category_name = obj.topic.category.name if obj.topic.category
-      SearchObserver.update_posts_index(obj.id, obj.cooked, obj.topic.title, category_name)
+      if obj.topic
+        category_name = obj.topic.category.name if obj.topic.category
+        SearchObserver.update_posts_index(obj.id, obj.cooked, obj.topic.title, category_name)
+      else
+        Rails.logger.warn("Orphan post skipped in search_observer, topic_id: #{obj.topic_id} post_id: #{obj.id} raw: #{obj.raw}")
+      end
     end
     if obj.class == User && (obj.username_changed? || obj.name_changed?)
       SearchObserver.update_users_index(obj.id, obj.username, obj.name)
@@ -50,7 +54,7 @@ class SearchObserver < ActiveRecord::Observer
 
     if obj.class == Topic && obj.title_changed?
       if obj.posts
-        post = obj.posts.where(post_number: 1).first
+        post = obj.posts.find_by(post_number: 1)
         if post
           category_name = obj.category.name if obj.category
           SearchObserver.update_posts_index(post.id, post.cooked, obj.title, category_name)

@@ -21,7 +21,6 @@ es:
       one: "otra respuesta"
       other: "otras %{count}  respuestas"
     permalink: "Enlace permanente"
-    in_reply_to: "en respuesta a %{username}"
     replies:
       one: "1 respuesta"
       other: "%{count} respuestas"
@@ -109,9 +108,7 @@ es:
   user_profile:
     no_info_me: "<div class='missing-profile'>El campo 'Sobre mí' de tu perfil está actualmente en blanco, <a href='/users/%{username_lower}/preferences/about-me'>¿Te gustaría rellenarlo?</a></div>"
     no_info_other: "<div class='missing-profile'>%{name} no ha introducido nada aún en el campo 'Sobre mí' de su perfil</div>"
-  vip_category_name: "Salón"
   vip_category_description: "Una categoría exclusiva para miembros de un nivel de confianza de 3 o más."
-  meta_category_name: "Meta"
   meta_category_description: "Discusión sobre este foro, su estructura, cómo funciona, y cómo podemos mejorarlo."
   category:
     topic_prefix: "Definición de la categoría %{category}"
@@ -236,11 +233,9 @@ es:
   post_action_types:
     off_topic:
       title: 'Off-Topic'
-      description: 'Este post es radicalmente un off-topic en la conversación actual, y debería ser probablemente movido a un topic distinto. If this is a topic, perhaps it does not belong here.'
       long_form: 'Marcado como off-topic'
     spam:
       title: 'Spam'
-      description: 'Este post es un anuncio. No es útil o relevante en la conversación actual, pero promocional en naturaleza.'
       long_form: 'Marcado como spam'
     inappropriate:
       title: 'Inapropiado'
@@ -271,7 +266,6 @@ es:
     notify_moderators:
       title: 'Notificar a los moderadores'
   flagging:
-    you_must_edit: '<p>Tu post ha sido marcado por la comunidad. Por favor revisa tus mensajes privados.</p>'
     user_must_edit: '<p>Marcado, contenido oculto.</p>'
   archetypes:
     regular:
@@ -492,7 +486,6 @@ es:
     cooldown_minutes_after_hiding_posts: "Número de minutos que un usuario debe esperar antes de poder editar el post que ha sido oculto debido al marcado"
     traditional_markdown_linebreaks: "Use traditional linebreaks in Markdown, which require two trailing spaces for a linebreak"
     post_undo_action_window_mins: "Número de segundos en los que a los usuarios se les permite revertir la acción en un post (like, flag, etc)"
-    must_approve_users: "Los administradores deben aprovar a todos los usuarios antes de tener acceso"
     ga_tracking_code: "Código de Google Analytics, ej: UA-12345678-9; visita http://google.com/analytics"
     top_menu: "Determinar que items aparecen en la navegación de la home y en qué orden. Ejemplo latest|new|unread|starred|categories|top|read|posted"
     post_menu: "Determinar que items aparecen en el menú de post y en qué orden. Ejemplo like|edit|flag|delete|share|bookmark|reply"
@@ -535,7 +528,6 @@ es:
     max_private_messages_per_day: "Máximo número de mensajes privados que los usuarios pueden crear por día"
     suggested_topics: "El número de topics sugeridos mostrado al final de un topic"
     enable_s3_uploads: "Activar uploads con Amazon S3"
-    s3_upload_bucket: "El nombre del contenedor Amazon S3 al que los archivos serán subidos"
     s3_access_key_id: "La llave id de Amazon S3 que se usará para subir imágenes"
     s3_secret_access_key: "La llave secreta de Amazon S3 que se usará para subir imágenes"
     default_invitee_trust_level: "Nivel de confianza por defecto (0-4) para usuarios invitados"
@@ -580,7 +572,6 @@ es:
     archived_disabled: "Este topic se ha desarchivado. Ya no está congelado y puede ser cambiad."
     closed_enabled: "Este topic está ahora cerrado. No se admiten nuevas respuestas"
     closed_disabled: "Este topic está abierto. Se adminten nuevas respuestas"
-    pinned_enabled: "Este topic está ahora pinned. Aparecerá encima de su categoría hasta que sea unpinned por un moderador, o restaurado por un ususario con el botón 'Clear Pin' "
     pinned_disabled: "This topic is now unpinned. It will no longer appear at the top of its category."
     visible_enabled: "Este topic está ahora visible. Será mostrado en la lista de topics."
     visible_disabled: "Este topic es ahora invisible. No será mostrado en ninguna lista de topics. El único modo de acceder a este topic es con un enlace directo."
@@ -659,29 +650,11 @@ es:
       ----
 
       <small>There should be an unsubscribe footer on every email you send, so let's mock one up. This email was sent by Name of Company, 55 Main Street, Anytown, USA 12345. If you would like to opt out of future emails, [click here to unsubscribe][5].</small>
-  new_version_mailer:
-    subject_template: "[%{site_name}] actualización disponible"
   new_version_mailer_with_notes:
     subject_template: "[%{site_name}] actualización disponible"
   system_messages:
     post_hidden:
       subject_template: "%{site_name} Advertencia: Posting oculto debido al Community Flagging"
-      text_body_template: |
-        Hola,
-
-        Este es un mensaje automático de %{site_name} para informarte que el siguiente post ha sido oculto debeido al community flagging.
-
-        %{base_url}%{url}
-
-        Tu post ha sido ocultado debido a que ha sido marcado por la comunidad.
-
-        Ten en cuenta que multiples miembros de la comunidad han marcado este post antes de que haya sido ocultado, por tanto considera como podrías revisar el post para reflejar su feedback.
-
-        Podrás editar el post después de %{edit_delay} minutos, y será automáticamente mostrado. Esto incrementara tu nivel de confianza en el foro.
-
-        Sin embargo, si el post es ocultado por la comunidad una segunda vez, los moderadores serán notificados -- y habrá posibles consecuencias, como la posible suspensión de tu cuenta.
-
-        Para más consejos, por favor revisa nuestro [FAQ](%{base_url}/faq).
     usage_tips:
       text_body_template: |
         Este mensaje privado tiene unos pocos consejos para iniciarte:
@@ -817,9 +790,7 @@ es:
       subject_template: "[%{site_name}] [MP] %{topic_title}"
     digest:
       why: "Aquí hay un pequeño resument de que ocurrió en %{site_link} desde la última vez que lo viste en %{last_seen_at}."
-      subject_template: "[%{site_name}] Actividad en el foro para %{date}"
       new_activity: "Actividad nueva en tus topics y posts:"
-      other_new_topics: "Otros temas nuevos:"
       unsubscribe: "Este email de resumen es enviado como una notificación de cortesía desde %{site_link} ya que no te hemos visto en un tiempo.\nSi te gustaría desactivarlo o cambiar tus preferencias de emeail, %{unsubscribe_link}."
       click_here: "click aquí"
       from: "%{site_name} digest"

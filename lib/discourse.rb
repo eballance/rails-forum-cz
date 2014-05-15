@@ -197,12 +197,12 @@ module Discourse
 
   # Either returns the site_contact_username user or the first admin.
   def self.site_contact_user
-    user = User.where(username_lower: SiteSetting.site_contact_username.downcase).first if SiteSetting.site_contact_username.present?
+    user = User.find_by(username_lower: SiteSetting.site_contact_username.downcase) if SiteSetting.site_contact_username.present?
     user ||= User.admins.real.order(:id).first
   end
 
   def self.system_user
-    User.where(id: -1).first
+    User.find_by(id: -1)
   end
 
   def self.store
@@ -245,10 +245,12 @@ module Discourse
     SiteSetting.after_fork
     $redis.client.reconnect
     Rails.cache.reconnect
+    Logster.store.redis.reconnect
     # shuts down all connections in the pool
     Sidekiq.redis_pool.shutdown{|c| nil}
     # re-establish
     Sidekiq.redis = sidekiq_redis_config
+    nil
   end
 
   def self.sidekiq_redis_config

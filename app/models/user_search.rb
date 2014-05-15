@@ -1,14 +1,16 @@
 # Searches for a user by username or full text or name (if enabled in SiteSettings)
 class UserSearch
 
-  def initialize(term, topic_id=nil)
+  def initialize(term, opts={})
     @term = term
     @term_like = "#{term.downcase}%"
-    @topic_id = topic_id
+    @topic_id = opts[:topic_id]
+    @searching_user = opts[:searching_user]
+    @limit = opts[:limit] || 20
   end
 
   def search
-    users = User.order(User.sql_fragment("CASE WHEN username_lower = ? THEN 0 ELSE 1 END ASC", :term))
+    users = User.order(User.sql_fragment("CASE WHEN username_lower = ? THEN 0 ELSE 1 END ASC", @term.downcase))
 
     if @term.present?
       if SiteSetting.enable_names?
@@ -31,8 +33,12 @@ class UserSearch
                    .order("CASE WHEN s.user_id IS NULL THEN 0 ELSE 1 END DESC")
     end
 
+    unless @searching_user && @searching_user.staff?
+      users = users.not_suspended
+    end
+
     users.order("CASE WHEN last_seen_at IS NULL THEN 0 ELSE 1 END DESC, last_seen_at DESC, username ASC")
-         .limit(20)
+         .limit(@limit)
   end
 
 end

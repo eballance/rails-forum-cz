@@ -18,18 +18,17 @@ Discourse.PreferencesRoute = Discourse.RestrictedUserRoute.extend({
 
   actions: {
     showAvatarSelector: function() {
-      Discourse.Route.showModal(this, 'avatarSelector');
+      Discourse.Route.showModal(this, 'avatar-selector');
       // all the properties needed for displaying the avatar selector modal
-      var avatarSelector = this.modelFor('user').getProperties(
+      this.controllerFor('avatar-selector').setProperties(this.modelFor('user').getProperties(
         'username', 'email',
         'has_uploaded_avatar', 'use_uploaded_avatar',
-        'gravatar_template', 'uploaded_avatar_template');
-      this.controllerFor('avatarSelector').setProperties(avatarSelector);
+        'gravatar_template', 'uploaded_avatar_template'));
     },
 
     saveAvatarSelection: function() {
       var user = this.modelFor('user');
-      var avatarSelector = this.controllerFor('avatarSelector');
+      var avatarSelector = this.controllerFor('avatar-selector');
       // sends the information to the server if it has changed
       if (avatarSelector.get('use_uploaded_avatar') !== user.get('use_uploaded_avatar')) {
         user.toggleAvatarSelection(avatarSelector.get('use_uploaded_avatar'));
@@ -87,10 +86,10 @@ Discourse.PreferencesAboutRoute = Discourse.RestrictedUserRoute.extend({
     this.render('preferences', { into: 'user', outlet: 'userOutlet', controller: 'preferences' });
   },
 
-  events: {
+  actions: {
     changeAbout: function() {
       var route = this;
-      var controller = route.controllerFor('preferencesAbout');
+      var controller = route.controllerFor('preferences/about');
 
       controller.setProperties({ saving: true });
       return controller.get('model').save().then(function() {

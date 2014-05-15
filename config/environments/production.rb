@@ -39,6 +39,8 @@ Discourse::Application.configure do
       enable_starttls_auto: GlobalSetting.smtp_enable_start_tls
     }
 
+    settings[:openssl_verify_mode] = GlobalSetting.smtp_openssl_verify_mode if GlobalSetting.smtp_openssl_verify_mode
+
     config.action_mailer.smtp_settings = settings.reject{|x,y| y.nil?}
   else
     config.action_mailer.delivery_method = :sendmail

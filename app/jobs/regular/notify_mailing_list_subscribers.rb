@@ -5,8 +5,9 @@ module Jobs
     def execute(args)
       post_id = args[:post_id]
       if post_id
-        post = Post.with_deleted.where(id: post_id).first
-        return if post && post.trashed?
+        post = Post.with_deleted.find_by(id: post_id)
+        # our topic can be deleted as well
+        return if (post && post.trashed?) || !post.topic
       end
 
       raise Discourse::InvalidParameters.new(:post_id) unless post

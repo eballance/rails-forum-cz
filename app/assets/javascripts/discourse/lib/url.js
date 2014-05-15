@@ -52,8 +52,27 @@ Discourse.URL = Em.Object.createWithMixins({
   **/
   routeTo: function(path) {
 
+    if (Em.isEmpty(path)) { return; }
+
     if(Discourse.get("requiresRefresh")){
       document.location.href = path;
+      return;
+    }
+
+    // Protocol relative URLs
+    if (path.indexOf('//') === 0) {
+      document.location = path;
+      return;
+    }
+
+    // Scroll to the same page, differnt anchor
+    if (path.indexOf('#') === 0) {
+      var $elem = $(path);
+      if ($elem.length > 0) {
+        Em.run.schedule('afterRender', function() {
+          $('html,body').scrollTop($elem.offset().top - $('header').height() - 15);
+        });
+      }
       return;
     }
 
@@ -182,9 +201,9 @@ Discourse.URL = Em.Object.createWithMixins({
     if (path === "/" && (oldPath === "/" || oldPath === "/" + homepage)) {
       // refresh the list
       switch (homepage) {
-        case "top" :       { this.controllerFor('discoveryTop').send('refresh'); break; }
-        case "categories": { this.controllerFor('discoveryCategories').send('refresh'); break; }
-        default:           { this.controllerFor('discoveryTopics').send('refresh'); break; }
+        case "top" :       { this.controllerFor('discovery/top').send('refresh'); break; }
+        case "categories": { this.controllerFor('discovery/categories').send('refresh'); break; }
+        default:           { this.controllerFor('discovery/topics').send('refresh'); break; }
       }
       return true;
     }

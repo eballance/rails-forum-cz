@@ -52,8 +52,8 @@ en:
     other: "We're sorry, but new users are temporarily limited to %{count} replies in the same topic."
 
   embed:
-    start_discussion: "Begin the Discussion"
-    continue: "Continue the Discussion"
+    start_discussion: "Start Discussion"
+    continue: "Continue Discussion"
     more_replies:
       one: "1 more reply"
       other: "%{count} more replies"
@@ -61,7 +61,7 @@ en:
     loading: "Loading Discussion..."
     permalink: "Permalink"
     imported_from: "This is a companion discussion topic for the original entry at %{link}"
-    in_reply_to: "reply to %{username}"
+    in_reply_to: "▶ %{username}"
     replies:
       one: "1 reply"
       other: "%{count} replies"
@@ -211,18 +211,22 @@ en:
               common: "is one of the 10000 most common passwords. Please use a more secure password."
             ip_address:
               signup_not_allowed: "Signup is not allowed from this account."
+        color_scheme_color:
+          attributes:
+            hex:
+              invalid: "is not a valid color"
 
   user_profile:
     no_info_me: "<div class='missing-profile'>the About Me field of your profile is currently blank, <a href='/users/%{username_lower}/preferences/about-me'>would you like to fill it out?</a></div>"
     no_info_other: "<div class='missing-profile'>%{name} hasn't entered anything in the About Me field of their profile yet</div>"
 
-  vip_category_name: "Lounge"
+  vip_category_name: "lounge"
   vip_category_description: "A category exclusive to members with trust level 3 and higher."
 
-  meta_category_name: "Meta"
+  meta_category_name: "meta"
   meta_category_description: "Discussion about this forum, its organization, how it works, and how we can improve it."
 
-  staff_category_name: "Staff"
+  staff_category_name: "staff"
   staff_category_description: "Private category for staff discussions. Topics are only visible to admins and moderators."
 
   assets_topic_body: "This is a permanent topic, visible only to staff, for storing images and files used in the forum design. Don't delete it!\n\n\nHere's how:\n\n\n1. Reply to this topic.\n2. Upload all the images you wish to use for logos, favicons, and so forth here. (Use the upload toolbar icon in the post editor, or drag-and-drop or paste images.)\n3. Submit your reply to post it.\n4. Right click the images in your new post to get the path to the uploaded images, or click the edit icon to edit your post and retrieve the path to the images. Copy the image paths.\n5. Paste those image paths into [basic settings](/admin/site_settings/category/required).\n\n\nAlso, if you need to enable different file type uploads, edit `authorized_extensions` in the [file settings](/admin/site_settings/category/files)."
@@ -578,6 +582,9 @@ en:
     tos_signup_form_message:
       title: "Signup Form: Terms of Service Message"
       description: "The message that will appear beside a checkbox on the signup form if the tos_accept_required site setting is enabled."
+    notification_email_top:
+      title: "Notification Email Top"
+      description: "A message that will be displayed at the top of all notification emails."
 
   site_settings:
     default_locale: "The default language of this Discourse instance (ISO 639-1 Code)"
@@ -657,7 +664,7 @@ en:
 
     traditional_markdown_linebreaks: "Use traditional linebreaks in Markdown, which require two trailing spaces for a linebreak"
     post_undo_action_window_mins: "Number of seconds users are allowed to reverse actions on a post (like, flag, etc)"
-    must_approve_users: "Admins must approve all users before they gain access"
+    must_approve_users: "Admins must approve all new user signups before they gain access"
     ga_tracking_code: "Google analytics (ga.js) tracking code code, eg: UA-12345678-9; see http://google.com/analytics"
     ga_domain_name: "Google analytics (ga.js) domain name, eg: mysite.com; see http://google.com/analytics"
     ga_universal_tracking_code: "Google Universal Analytics (analytics.js) tracking code code, eg: UA-12345678-9; see http://google.com/analytics"
@@ -777,6 +784,8 @@ en:
 
     min_trust_to_create_topic: "The minimum trust level required to create a new topic."
 
+    min_trust_to_edit_wiki_post: "The minimum trust level required to edit post marked as wiki."
+
     newuser_max_links: "How many links a new user can add to a post"
     newuser_max_images: "How many images a new user can add to a post"
     newuser_max_attachments: "How many attachments a new user can add to a post"
@@ -852,6 +861,7 @@ en:
 
     detect_custom_avatars: "Whether or not to check that users have uploaded custom avatars"
     max_daily_gravatar_crawls: "The maximum amount of times Discourse will check gravatar for custom avatars in a day"
+    public_user_custom_fields: "A whitelist of custom fields for a user that can be shown publically."
 
     allow_profile_backgrounds: "Allows users to upload profile backgrounds"
 
@@ -1049,32 +1059,34 @@ en:
       <small>There should be an unsubscribe footer on every email you send, so let's mock one up. This email was sent by Name of Company, 55 Main Street, Anytown, USA 12345. If you would like to opt out of future emails, [click here to unsubscribe][5].</small>
 
   new_version_mailer:
-    subject_template: "[%{site_name}] update available"
+    subject_template: "[%{site_name}] New Discourse version, update available"
     text_body_template: |
-      A new version of Discourse is available:
+      A new version of Discourse is available.
 
       Your version: %{installed_version}
       New version: **%{new_version}**
 
+      You may want to:
       - See what's new in the [GitHub changelog](https://github.com/discourse/discourse/commits/master).
 
-      - Upgrade by visiting [%{base_url}/admin/docker](%{base_url}/admin/docker), refreshing the page a few times, and pressing the "Upgrade Discourse" button.
+      - Upgrade by visiting [%{base_url}/admin/docker](%{base_url}/admin/docker) and pressing the "Upgrade" button.
 
-      - Visit http://meta.discourse.org for news, discussion, and support for Discourse.
+      - Visit [meta.discourse.org](http://meta.discourse.org) for news, discussion, and support for Discourse.
 
   new_version_mailer_with_notes:
     subject_template: "[%{site_name}] update available"
     text_body_template: |
-      A new version of Discourse is available:
+      A new version of Discourse is available.
 
       Your version: %{installed_version}
       New version: **%{new_version}**
 
+      You may want to:
       - See what's new in the [GitHub changelog](https://github.com/discourse/discourse/commits/master).
 
-      - Upgrade by visiting [%{base_url}/admin/docker](%{base_url}/admin/docker), refreshing the page a few times, and pressing the "Upgrade Discourse" button.
+      - Upgrade by visiting [%{base_url}/admin/docker](%{base_url}/admin/docker), and pressing the "Upgrade" button.
 
-      - Visit http://meta.discourse.org for news, discussion, and support for Discourse.
+      - Visit [meta.discourse.org](http://meta.discourse.org) for news, discussion, and support for Discourse.
 
       ### Release notes
 
@@ -1095,6 +1107,7 @@ en:
     off_topic: "Your post was flagged as **off-topic**: the community thinks it does not fit into the topic, as currently defined by the title and the first post."
     inappropriate: "Your post was flagged as **inappropriate**: the community thinks it is offensive, abusive, or a violation of [the community guidelines](/faq)."
     spam: "Your post was flagged as **spam**: the community thinks it is an advertisement, not useful or relevant to the topic, but promotional in nature."
+    notify_moderators: "Your post was flagged **for moderator attention**: the community thinks something about the post requires moderator intervention."
 
   system_messages:
     post_hidden:
@@ -1380,8 +1393,8 @@ en:
       click_here: "click here"
       from: "%{site_name} digest"
       read_more: "Read More"
-      more_topics: "%{new_topics_since_seen} new topics posted since you last visited on %{last_seen_at}."
-      more_topics_category: "%{new_topics_since_seen} new topics posted in these categories since you last visited on %{last_seen_at}:"
+      more_topics: "There were %{new_topics_since_seen} other new topics posted since you last visited on %{last_seen_at}."
+      more_topics_category: "There were %{new_topics_since_seen} other new topics posted in these categories since you last visited on %{last_seen_at}:"
 
       posts:
         one: "1 post"

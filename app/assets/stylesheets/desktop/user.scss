@@ -63,7 +63,7 @@
     display: inline-block;
   }
   .instructions {
-    color: $primary;
+    color: scale-color($primary, $lightness: 50%);
     margin-left: 160px;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -173,7 +173,7 @@
 
     margin-bottom: 10px;
     overflow: hidden;
-    color: $primary;
+    color: $secondary;
 
 
     .details {
@@ -199,7 +199,6 @@
 
       img.avatar {
         margin-bottom: 10px;
-        background-color: $primary;
       }
 
       .suspended {
@@ -231,7 +230,7 @@
 
       .secondary {
         float: right;
-        background-color: rgba(scale-color($primary, $lightness: 50%), .9);
+        background-color: rgba(scale-color($primary, $lightness: 20%), .9);
         text-align: right;
         padding: 0 20px;
         max-width: 165px;
@@ -250,7 +249,7 @@
     }
 
     .controls {
-      background-color: scale-color($primary, $lightness: 50%);
+      background-color: scale-color($primary, $lightness: 30%);
       padding: 12px;
       height: 30px;
 
@@ -278,7 +277,6 @@
         .avatar {
           float: left;
           margin-right: 10px;
-          border: 2px solid $tertiary;
           width: 45px;
           height: 45px;
         }
@@ -340,12 +338,15 @@
     }
     .title {
       display: block;
-      margin-bottom: 4px;
       font-size: 14px;
     }
     .edit-reason {
       background-color: scale-color($highlight, $lightness: 25%);
       padding: 3px 5px 5px 5px;
+    }
+    .remove-bookmark {
+      float: right;
+      margin-top: -4px;
     }
   }
 }

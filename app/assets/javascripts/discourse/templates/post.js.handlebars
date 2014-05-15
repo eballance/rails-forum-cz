@@ -17,26 +17,11 @@
         {{/if}}
       </a>
     {{/if}}
-    <div class='topic-meta-data span2'>
+    <div class='topic-avatar span2'>
       {{#unless userDeleted}}
         <div {{bind-attr class=":contents byTopicCreator:topic-creator :trigger-expansion"}}>
           <a class="main-avatar" href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{avatar this imageSize="large"}}</a>
-          <div class="names">
-            <h3 {{bind-attr class="staff new_user :username"}}><a href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{{breakUp username name}}}</a></h3>
 
-            {{#if showName}}
-            <h3 class="full-name"><a href='{{unbound usernameUrl}}' {{action showPosterExpansion this}}>{{breakUp name}}</a></h3>
-            {{/if}}
-
-            {{#if user_title}}
-              {{#if primary_group_name}}
-                <div class="user-title"><a href='/groups/{{unbound primary_group_name}}' class='user-group'>{{unbound user_title}}</a></div>
-              {{else}}
-                <div class="user-title" {{action showPosterExpansion this}}>{{unbound user_title}}</div>
-              {{/if}}
-            {{/if}}
-
-          </div>
         </div>
       {{else}}
         <div class="contents">
@@ -46,9 +31,34 @@
           </div>
         </div>
       {{/unless}}
+      {{#if wiki}}
+        <div class="wiki"><i class="fa fa-pencil-square-o fa-3x"></i></div>
+      {{/if}}
     </div>
 
     <div class='topic-body span14'>
+      <div class='topic-meta-data'>
+        {{poster-name post=this expandAction="showPosterExpansion"}}
+        <div class='post-info'>
+          <a href='#' class='post-date' {{bind-attr data-share-url="shareUrl"}} {{bind-attr data-post-number="post_number"}}>{{unboundAgeWithTooltip created_at}}</a>
+        </div>
+        {{#if hasHistory}}
+          <div class='post-info edits'>
+            {{#if can_view_edit_history}}
+              <a href='#' class="{{unbound historyHeat}}" {{action showHistory this}} title="{{i18n post.last_edited_on}} {{rawDate updated_at}}">
+                {{editCount}}
+                <i class='fa fa-pencil'></i>
+              </a>
+            {{else}}
+              <span class="{{unbound historyHeat}}" title="{{i18n post.last_edited_on}} {{rawDate updated_at}}">
+                {{editCount}}
+                <i class='fa fa-pencil'></i>
+              </span>
+            {{/if}}
+          </div>
+        {{/if}}
+      </div>
+
       <div {{bind-attr class=":select-posts controller.multiSelect::hidden"}}>
         <button {{action toggledSelectedPostReplies this}} {{bind-attr class="view.canSelectReplies::hidden"}}>{{i18n topic.multi_select.select_replies}}</button>
         <button {{action toggledSelectedPost this}} class="select-post">{{view.selectPostText}}</button>
@@ -56,26 +66,7 @@
 
       <div {{bind-attr class="showUserReplyTab:avoid-tab view.repliesShown::bottom-round :contents :regular view.extraClass"}}>
         {{#unless controller.multiSelect}}
-          <div class='topic-meta-data-inside'>
-            {{#if hasHistory}}
-              <div class='post-info edits'>
-                {{#if can_view_edit_history}}
-                  <a href='#' class="{{unbound historyHeat}}" {{action showHistory this}} title="{{i18n post.last_edited_on}} {{rawDate updated_at}}">
-                    {{editCount}}
-                    <i class='fa fa-pencil'></i>
-                  </a>
-                {{else}}
-                  <span class="{{unbound historyHeat}}" title="{{i18n post.last_edited_on}} {{rawDate updated_at}}">
-                    {{editCount}}
-                    <i class='fa fa-pencil'></i>
-                  </span>
-                {{/if}}
-              </div>
-            {{/if}}
-            <div class='post-info'>
-              <a href='#' class='post-date' {{bind-attr data-share-url="shareUrl"}} {{bind-attr data-post-number="post_number"}}>{{unboundAgeWithTooltip created_at}}</a>
-            </div>
-          </div>
+
         {{/unless}}
         <div class='cooked'>{{{cooked}}}</div>
         {{#if view.showExpandButton}}
@@ -92,12 +83,10 @@
       {{view Discourse.TopicMapContainerView post=this topic=controller.model}}
     </div>
 
-    <div class='span5 gutter'>
-      {{collection contentBinding="internalLinks" itemViewClass="Discourse.PostLinkView" tagName="ul" classNames="post-links"}}
-      {{#if topic.details.can_reply_as_new_topic}}
-        <a href='#' class='reply-new' {{action replyAsNewTopic this}}><i class='fa fa-plus'></i>{{i18n post.reply_as_new_topic}}</a>
-      {{/if}}
-    </div>
+    {{post-gutter post=this
+                  links=internalLinks
+                  canReplyAsNewTopic=topic.details.can_reply_as_new_topic
+                  newTopicAction="replyAsNewTopic"}}
   </div>
 
 </article>

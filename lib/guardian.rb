@@ -8,7 +8,7 @@ require_dependency 'guardian/user_guardian'
 class Guardian
   include EnsureMagic
   include CategoryGuardian
-  include PostGuardain
+  include PostGuardian
   include TopicGuardian
   include UserGuardian
 
@@ -23,6 +23,7 @@ class Guardian
     def has_trust_level?(level); false; end
     def email; nil; end
   end
+
   def initialize(user=nil)
     @user = user.presence || AnonymousUser.new
   end
@@ -187,17 +188,20 @@ class Guardian
     is_me?(user)
   end
 
-  def can_invite_to_forum?
+  def can_invite_to_forum?(groups=nil)
     authenticated? &&
     !SiteSetting.enable_sso &&
     (
       (!SiteSetting.must_approve_users? && @user.has_trust_level?(:regular)) ||
       is_staff?
-    )
+    ) &&
+    (groups.blank? || is_admin?)
   end
 
-  def can_invite_to?(object)
-    can_see?(object) && can_invite_to_forum?
+  def can_invite_to?(object, group_ids=nil)
+    can_see?(object) &&
+    can_invite_to_forum? &&
+    ( group_ids.blank? || is_admin? )
   end
 
   def can_see_private_messages?(user_id)
@@ -215,7 +219,9 @@ class Guardian
     # PMs are enabled
     (SiteSetting.enable_private_messages ||
       @user.username == SiteSetting.site_contact_username ||
-      @user == Discourse.system_user)
+      @user == Discourse.system_user) &&
+    # Can't send PMs to suspended users
+    (is_staff? || target.is_a?(Group) || !target.suspended?)
   end
 
   private

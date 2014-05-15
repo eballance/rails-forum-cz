@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  before_filter :set_current_user_for_logs
   before_filter :set_locale
   before_filter :set_mobile_view
   before_filter :inject_preview_style
@@ -120,6 +121,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_current_user_for_logs
+    if current_user
+      Logster.add_to_env(request.env,"username",current_user.username)
+    end
+  end
+
   def set_locale
     I18n.locale = if SiteSetting.allow_user_locale && current_user && current_user.locale.present?
                     current_user.locale
@@ -203,7 +210,7 @@ class ApplicationController < ActionController::Base
     username_lower = params[:username].downcase
     username_lower.gsub!(/\.json$/, '')
 
-    user = User.where(username_lower: username_lower).first
+    user = User.find_by(username_lower: username_lower)
     raise Discourse::NotFound.new if user.blank?
 
     guardian.ensure_can_see!(user)

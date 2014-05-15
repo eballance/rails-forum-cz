@@ -7,7 +7,7 @@ require_dependency 'gaps'
 class TopicView
 
   attr_reader :topic, :posts, :guardian, :filtered_posts
-  attr_accessor :draft, :draft_key, :draft_sequence
+  attr_accessor :draft, :draft_key, :draft_sequence, :user_custom_fields
 
   def initialize(topic_id, user=nil, options={})
     @user = user
@@ -29,6 +29,10 @@ class TopicView
     @index_reverse = false
 
     filter_posts(options)
+
+    if SiteSetting.public_user_custom_fields.present? && @posts
+      @user_custom_fields = User.custom_fields_for_ids(@posts.map(&:user_id), SiteSetting.public_user_custom_fields.split('|'))
+    end
 
     @draft_key = @topic.draft_key
     @draft_sequence = DraftSequence.current(@user, @draft_key)
@@ -60,7 +64,7 @@ class TopicView
   end
 
   def prev_page
-    if @page && @page > 1
+    if @page && @page > 1 && posts.length > 0
       @page - 1
     else
       nil
@@ -185,7 +189,7 @@ class TopicView
   def topic_user
     @topic_user ||= begin
       return nil if @user.blank?
-      @topic.topic_users.where(user_id: @user.id).first
+      @topic.topic_users.find_by(user_id: @user.id)
     end
   end
 

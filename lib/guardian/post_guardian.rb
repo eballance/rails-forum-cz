@@ -1,9 +1,8 @@
 #mixin for all guardian methods dealing with post permissions
-module PostGuardain
+module PostGuardian
   # Can the user act on the post in a particular way.
   #  taken_actions = the list of actions the user has already taken
   def post_can_act?(post, action_key, opts={})
-
     taken = opts[:taken_actions].try(:keys).to_a
     is_flag = PostActionType.is_flag?(action_key)
     already_taken_this_action = taken.any? && taken.include?(PostActionType.types[action_key])
@@ -69,7 +68,23 @@ module PostGuardain
 
   # Editing Method
   def can_edit_post?(post)
-    is_staff? || @user.has_trust_level?(:elder) || (!post.topic.archived? && is_my_own?(post) && !post.user_deleted && !post.deleted_at && !post.edit_time_limit_expired?)
+    if is_staff? || @user.has_trust_level?(:elder)
+      return true
+    end
+
+    if post.topic.archived? || post.user_deleted || post.deleted_at
+      return false
+    end
+
+    if post.wiki && (@user.trust_level >= SiteSetting.min_trust_to_edit_wiki_post.to_i)
+      return true
+    end
+
+    if is_my_own?(post) && !post.edit_time_limit_expired?
+      return true
+    end
+
+    false
   end
 
   # Deleting Methods
@@ -110,16 +125,17 @@ module PostGuardain
   end
 
   def can_see_post_revision?(post_revision)
-    return false if post_revision.nil?
+    return false unless post_revision
     can_view_post_revisions?(post_revision.post)
   end
 
   def can_view_post_revisions?(post)
-    return false if post.nil?
+    return false unless post
     return true if SiteSetting.edit_history_visible_to_public && !post.hidden
+
     authenticated? &&
-      (is_staff? || @user.has_trust_level?(:elder) || @user.id == post.user_id) &&
-      can_see_post?(post)
+    (is_staff? || @user.has_trust_level?(:elder) || @user.id == post.user_id) &&
+    can_see_post?(post)
   end
 
   def can_vote?(post, opts={})
@@ -128,5 +144,9 @@ module PostGuardain
 
   def can_change_post_owner?
     is_admin?
+  end
+
+  def can_wiki?
+    is_staff? || @user.has_trust_level?(:elder)
   end
 end

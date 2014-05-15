@@ -1,8 +1,3 @@
-.post-info a {
-  color: scale-color($primary, $lightness: 60%);
-}
-
-
 .post-actions {
   @include unselectable;
   clear: both;
@@ -16,10 +11,6 @@
 .post-menu-area {
   margin-bottom: 10px;
   margin-top: 20px;
-}
-
-.post-info  {
-  display: inline-block;
 }
 
 .edits {margin-right: 5px;}
@@ -163,9 +154,7 @@ a:hover.reply-new {
     bottom: 0;
     width: 0;
     border-right: 1px solid  scale-color($primary, $lightness: 90%);
-    // background-color: #d4eaf4;
-    // background-color: #C5E8F7;
-    background-color:  scale-color($success, $lightness: 60%);
+    background-color:  scale-color($success, $lightness: 70%);
     transition: width .75s;
   }
 }

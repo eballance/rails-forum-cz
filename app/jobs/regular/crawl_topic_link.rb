@@ -50,7 +50,7 @@ module Jobs
     def self.max_chunk_size(uri)
       # Amazon leaves the title until very late. Normally it's a bad idea to make an exception for
       # one host but amazon is a big one.
-      return 80 if uri.host =~ /amazon\.(com|ca|co.uk)$/
+      return 80 if uri.host =~ /amazon\.(com|ca|co\.uk|es|fr|de|it|com\.au|com\.br|cn|in|co\.jp|com\.mx)$/
 
       # Default is 10k
       10
@@ -83,7 +83,7 @@ module Jobs
     def execute(args)
       raise Discourse::InvalidParameters.new(:topic_link_id) unless args[:topic_link_id].present?
 
-      topic_link = TopicLink.where(id: args[:topic_link_id], internal: false, crawled_at: nil).first
+      topic_link = TopicLink.find_by(id: args[:topic_link_id], internal: false, crawled_at: nil)
       return if topic_link.blank?
 
       # Look for a topic embed for the URL. If it exists, use its title and don't crawl

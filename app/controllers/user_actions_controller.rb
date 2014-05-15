@@ -1,4 +1,5 @@
 class UserActionsController < ApplicationController
+
   def index
     params.require(:username)
     params.permit(:filter, :offset)
@@ -25,8 +26,7 @@ class UserActionsController < ApplicationController
   end
 
   def private_messages
-    # todo
+    # DO NOT REMOVE
   end
-
 
 end

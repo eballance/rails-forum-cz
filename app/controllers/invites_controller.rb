@@ -6,7 +6,7 @@ class InvitesController < ApplicationController
   before_filter :ensure_logged_in, only: [:destroy, :create]
 
   def show
-    invite = Invite.where(invite_key: params[:id]).first
+    invite = Invite.find_by(invite_key: params[:id])
 
     if invite.present?
       user = invite.redeem
@@ -30,9 +30,11 @@ class InvitesController < ApplicationController
   def create
     params.require(:email)
 
-    guardian.ensure_can_invite_to_forum!
+    group_ids = Group.lookup_group_ids(params)
 
-    if Invite.invite_by_email(params[:email], current_user)
+    guardian.ensure_can_invite_to_forum!(group_ids)
+
+    if Invite.invite_by_email(params[:email], current_user, topic=nil,  group_ids)
       render json: success_json
     else
       render json: failed_json, status: 422
@@ -42,7 +44,7 @@ class InvitesController < ApplicationController
   def destroy
     params.require(:email)
 
-    invite = Invite.where(invited_by_id: current_user.id, email: params[:email]).first
+    invite = Invite.find_by(invited_by_id: current_user.id, email: params[:email])
     raise Discourse::InvalidParameters.new(:email) if invite.blank?
     invite.trash!(current_user)
 

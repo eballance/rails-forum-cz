@@ -36,6 +36,7 @@ class PostSerializer < BasicPostSerializer
              :raw,
              :actions_summary,
              :moderator?,
+             :admin?,
              :staff?,
              :user_id,
              :draft_sequence,
@@ -46,15 +47,20 @@ class PostSerializer < BasicPostSerializer
              :deleted_by,
              :user_deleted,
              :edit_reason,
-             :can_view_edit_history
-
+             :can_view_edit_history,
+             :wiki,
+             :user_custom_fields
 
   def moderator?
-    object.user.try(:moderator?) || false
+    !!(object.user && object.user.moderator?)
+  end
+
+  def admin?
+    !!(object.user && object.user.admin?)
   end
 
   def staff?
-    object.user.try(:staff?) || false
+    !!(object.user && object.user.staff?)
   end
 
   def yours
@@ -208,6 +214,16 @@ class PostSerializer < BasicPostSerializer
 
   def can_view_edit_history
     scope.can_view_post_revisions?(object)
+  end
+
+  def user_custom_fields
+    @topic_view.user_custom_fields[object.user_id]
+  end
+
+  def include_user_custom_fields?
+    return if @topic_view.blank?
+    custom_fields = @topic_view.user_custom_fields
+    custom_fields && custom_fields[object.user_id]
   end
 
   private

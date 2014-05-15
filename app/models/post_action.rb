@@ -96,27 +96,30 @@ class PostAction < ActiveRecord::Base
 
     return unless opts[:message] && [:notify_moderators, :notify_user].include?(post_action_type)
 
-    # this is a hack to allow a PM with no reciepients, we should think through
-    # a cleaner technique, a PM with myself is valid for flagging
-    target_usernames = post_action_type == :notify_user ? post.user.username : "x"
+    title = I18n.t("post_action_types.#{post_action_type}.email_title", title: post.topic.title)
+    body = I18n.t("post_action_types.#{post_action_type}.email_body", message: opts[:message], link: "#{Discourse.base_url}#{post.url}")
 
-    title = I18n.t("post_action_types.#{post_action_type}.email_title",
-                    title: post.topic.title)
-    body = I18n.t("post_action_types.#{post_action_type}.email_body",
-                  message: opts[:message],
-                  link: "#{Discourse.base_url}#{post.url}")
+    opts = {
+      archetype: Archetype.private_message,
+      title: title,
+      raw: body
+    }
 
-    subtype = post_action_type == :notify_moderators ? TopicSubtype.notify_moderators : TopicSubtype.notify_user
-
-    if target_usernames.present?
-      PostCreator.new(user,
-              target_usernames: target_usernames,
-              archetype: Archetype.private_message,
-              subtype: subtype,
-              title: title,
-              raw: body
-       ).create.id
+    if post_action_type == :notify_moderators
+      opts[:subtype] = TopicSubtype.notify_moderators
+      opts[:target_group_names] = "moderators"
+    else
+      opts[:subtype] = TopicSubtype.notify_user
+      opts[:target_usernames] = if post_action_type == :notify_user
+        post.user.username
+      elsif post_action_type != :notify_moderators
+        # this is a hack to allow a PM with no reciepients, we should think through
+        # a cleaner technique, a PM with myself is valid for flagging
+        'x'
+      end
     end
+
+    PostCreator.new(user, opts).create.id
   end
 
   def self.act(user, post, post_action_type_id, opts={})
@@ -143,9 +146,7 @@ class PostAction < ActiveRecord::Base
   end
 
   def self.remove_act(user, post, post_action_type_id)
-    if action = where(post_id: post.id,
-                      user_id: user.id,
-                      post_action_type_id: post_action_type_id).first
+    if action = find_by(post_id: post.id, user_id: user.id, post_action_type_id: post_action_type_id)
       action.remove_act!(user)
     end
   end
@@ -319,7 +320,7 @@ class PostAction < ActiveRecord::Base
   end
 
   def self.post_action_type_for_post(post_id)
-    post_action = PostAction.where(defer: nil, post_id: post_id, post_action_type_id: PostActionType.flag_types.values, deleted_at: nil).first
+    post_action = PostAction.find_by(defer: nil, post_id: post_id, post_action_type_id: PostActionType.flag_types.values, deleted_at: nil)
     PostActionType.types[post_action.post_action_type_id]
   end
 

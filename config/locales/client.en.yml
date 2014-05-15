@@ -142,10 +142,11 @@ en:
       title: "Suggested Topics"
 
     bookmarks:
-      not_logged_in: "Sorry, you must be logged in to bookmark posts."
-      created: "You've bookmarked this post."
-      not_bookmarked: "You've read this post; click to bookmark it."
-      last_read: "This is the last post you've read; click to bookmark it."
+      not_logged_in: "sorry, you must be logged in to bookmark posts"
+      created: "you've bookmarked this post"
+      not_bookmarked: "you've read this post; click to bookmark it"
+      last_read: "this is the last post you've read; click to bookmark it"
+      remove: "Remove Bookmark"
 
     new_topics_inserted: "{{count}} new topics."
     show_new_topics: "Click to show."
@@ -159,6 +160,11 @@ en:
     upload: "Upload"
     uploading: "Uploading..."
     uploaded: "Uploaded!"
+
+    enable: "Enable"
+    disable: "Disable"
+    undo: "Undo"
+    revert: "Revert"
 
     choose_topic:
       none_found: "No topics found."
@@ -267,10 +273,7 @@ en:
       delete_account_confirm: "Are you sure you want to permanently delete your account? This action cannot be undone!"
       deleted_yourself: "Your account has been deleted successfully."
       delete_yourself_not_allowed: "You cannot delete your account right now. Contact an admin to do delete your account for you."
-      unread_message_count:
-        one: "Messages (1)"
-        other: "Messages ({{count}})"
-        zero: "Messages"
+      unread_message_count: "Messages"
 
       messages:
         all: "All"
@@ -834,6 +837,7 @@ en:
         success_message: 'You successfully flagged this topic.'
 
       inviting: "Inviting..."
+      automatically_add_to_groups: "Upon registration, automatically add user to groups. (optional, admin only)"
 
       invite_private:
         title: 'Invite to Private Message'
@@ -842,6 +846,7 @@ en:
         action: "Invite"
         success: "Thanks! We've invited that user to participate in this private message."
         error: "Sorry, there was an error inviting that user."
+        group_name: "group name"
 
       invite_reply:
         title: 'Invite'
@@ -923,6 +928,7 @@ en:
       gap:
         one: "1 post hidden"
         other: "{{count}} posts hidden"
+      more_links: "{{count}} more..."
 
       has_replies:
         one: "Reply"
@@ -962,6 +968,9 @@ en:
             other: "Do you also want to delete the {{count}} direct replies to this post?"
           yes_value: "Yes, delete the replies too"
           no_value: "No, just this post"
+        admin: "post admin actions"
+        wiki: "Wiki post"
+        unwiki: "Unwiki post"
 
       actions:
         flag: 'Flag'
@@ -1461,7 +1470,40 @@ en:
           new_name: "New Color Scheme"
           copy_name_prefix: "Copy of"
           delete_confirm: "Delete this color scheme?"
-          under_construction: "NOTE: Changes made here will do nothing! This feature is under construction!"
+          undo: "undo"
+          undo_title: "Undo your changes to this color since the last time it was saved."
+          revert: "revert"
+          revert_title: "Reset this color to Discourse's default color scheme."
+          primary:
+            name: 'primary'
+            description: 'Most text, icons, and borders.'
+          secondary:
+            name: 'secondary'
+            description: 'The main background color, and text color of some buttons.'
+          tertiary:
+            name: 'tertiary'
+            description: 'Links, some buttons, notifications, and accent color.'
+          quaternary:
+            name: "quaternary"
+            description: "Navigation links."
+          header_background:
+            name: "header background"
+            description: "Background color of the site's header."
+          header_primary:
+            name: "header primary"
+            description: "Text and icons in the site's header."
+          highlight:
+            name: 'highlight'
+            description: 'The background color of highlighted elements on the page, such as posts and topics.'
+          danger:
+            name: 'danger'
+            description: 'Highlight color for actions like deleting posts and topics.'
+          success:
+            name: 'success'
+            description: 'Used to indicate an action was successful.'
+          love:
+            name: 'love'
+            description: "The like button's color."
 
 
       email:

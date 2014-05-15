@@ -53,7 +53,7 @@ module Export
       @success = true
       "#{@archive_basename}.tar.gz"
     ensure
-      notify_user
+      notify_user rescue nil
       clean_up
       @success ? log("[SUCCESS]") : log("[FAILED]")
     end
@@ -65,7 +65,7 @@ module Export
     end
 
     def ensure_we_have_a_user
-      @user = User.where(id: @user_id).first
+      @user = User.find_by(id: @user_id)
       raise Discourse::InvalidParameters.new(:user_id) unless @user
     end
 
@@ -293,6 +293,8 @@ module Export
     def unpause_sidekiq
       log "Unpausing sidekiq..."
       Sidekiq.unpause!
+    rescue
+      log "Something went wrong while unpausing Sidekiq."
     end
 
     def disable_readonly_mode

@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   skip_before_filter :check_xhr, only: [:markdown,:short_link]
 
   def markdown
-    post = Post.where(topic_id: params[:topic_id].to_i, post_number: (params[:post_number] || 1).to_i).first
+    post = Post.find_by(topic_id: params[:topic_id].to_i, post_number: (params[:post_number] || 1).to_i)
     if post && guardian.can_see?(post)
       render text: post.raw, content_type: 'text/plain'
     else
@@ -122,6 +122,14 @@ class PostsController < ApplicationController
     display_post(post)
   end
 
+  def remove_bookmark_by_number
+    if current_user
+      post = find_post_from_params_by_number
+      PostAction.remove_act(current_user, post, PostActionType.types[:bookmark])
+    end
+    render nothing: true
+  end
+
   def reply_history
     post = find_post_from_params
     render_serialized(post.reply_history, PostSerializer)
@@ -184,7 +192,6 @@ class PostsController < ApplicationController
 
   def revisions
     post_revision = find_post_revision_from_params
-    guardian.ensure_can_see!(post_revision)
     post_revision_serializer = PostRevisionSerializer.new(post_revision, scope: guardian, root: false)
     render_json_dump(post_revision_serializer)
   end
@@ -201,6 +208,17 @@ class PostsController < ApplicationController
     render nothing: true
   end
 
+  def wiki
+    guardian.ensure_can_wiki!
+
+    post = find_post_from_params
+    post.wiki = params[:wiki]
+    post.version += 1
+    post.save
+
+    render nothing: true
+  end
+
   protected
 
   def find_post_revision_from_params
@@ -208,7 +226,7 @@ class PostsController < ApplicationController
     revision = params[:revision].to_i
     raise Discourse::InvalidParameters.new(:revision) if revision < 2
 
-    post_revision = PostRevision.where(post_id: post_id, number: revision).first
+    post_revision = PostRevision.find_by(post_id: post_id, number: revision)
     post_revision.post = find_post_from_params
 
     guardian.ensure_can_see!(post_revision)
@@ -294,6 +312,8 @@ class PostsController < ApplicationController
     # Include deleted posts if the user is staff
     finder = finder.with_deleted if current_user.try(:staff?)
     post = finder.first
+    # load deleted topic
+    post.topic = Topic.with_deleted.find(post.topic_id) if current_user.try(:staff?)
     guardian.ensure_can_see!(post)
     post
   end
