@@ -5,7 +5,7 @@ set :user, "#{application}-stg"
 set :domain, "#{application}.stg.eballance.cz"
 set :is_root_domain, false
 set :root_domain, ""
-set :branch, "master"
+set :branch, "latest-release"
 
 set :deploy_to, "/home/#{user}/web"
 set :rails_env, "staging"
