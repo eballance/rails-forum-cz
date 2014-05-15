@@ -728,7 +728,7 @@ end
 # Table name: users
 #
 #  id                            :integer          not null, primary key
-#  username                      :string(60)       not null
+#  username                      :string(20)       not null
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
 #  name                          :string(255)
@@ -739,7 +739,7 @@ end
 #  password_hash                 :string(64)
 #  salt                          :string(32)
 #  active                        :boolean
-#  username_lower                :string(60)       not null
+#  username_lower                :string(20)       not null
 #  auth_token                    :string(32)
 #  last_seen_at                  :datetime
 #  website                       :string(255)
@@ -774,12 +774,9 @@ end
 #  uploaded_avatar_id            :integer
 #  email_always                  :boolean          default(FALSE), not null
 #  mailing_list_mode             :boolean          default(FALSE), not null
-#  primary_group_id              :integer
 #  locale                        :string(10)
+#  primary_group_id              :integer
 #  profile_background            :string(255)
-#  email_hash                    :string(255)
-#  registration_ip_address       :inet
-#  last_redirected_to_top_at     :datetime
 #
 # Indexes
 #
