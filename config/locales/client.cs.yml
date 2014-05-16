@@ -59,8 +59,8 @@ cs:
           one: "1r"
           few: "%{count}r"
           other: "%{count}let"
-        date_month: "D MMM"
-        date_year: "MMM 'YY"
+        date_month: "DD. MM."
+        date_year: "DD. MM. YYYY"
       medium:
         x_minutes:
           one: "1 minuta"
