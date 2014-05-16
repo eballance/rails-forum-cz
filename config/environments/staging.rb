@@ -4,16 +4,19 @@ Discourse::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
   config.eager_load = true
-  
+
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = GlobalSetting.serve_static_assets
+
+  config.assets.js_compressor  = :uglifier
+  config.assets.css_compressor = :sass
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  # config.assets.compress = true
 
   # stuff should be pre-compiled
   config.assets.compile = false
@@ -53,10 +56,21 @@ Discourse::Application.configure do
   config.handlebars.precompile = true
 
   # this setting enables rack_cache so it caches various requests in redis
-  config.enable_rack_cache = true
+  # config.enable_rack_cache = true
 
   # allows admins to use mini profiler
-  config.enable_mini_profiler = true
+  config.enable_mini_profiler = GlobalSetting.enable_mini_profiler
+
+  # Discourse strongly recommend you use a CDN.
+  # For origin pull cdns all you need to do is register an account and configure
+  config.action_controller.asset_host = GlobalSetting.cdn_url
+
+  # a comma delimited list of emails your devs have
+  # developers have god like rights and may impersonate anyone in the system
+  # normal admins may only impersonate other moderators (not admins)
+  if emails = GlobalSetting.developer_emails
+    config.developer_emails = emails.split(",")
+  end
 
   # allows Cross-origin resource sharing (CORS) for API access in JavaScript (default to false for security).
   # See the initializer and https://github.com/cyu/rack-cors for configuration documentation.
