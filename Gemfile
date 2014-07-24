@@ -108,12 +108,9 @@ gem 'oj'
 gem 'pg'
 gem 'rake'
 
-gem 'capistrano', '2.13.5'
-
 gem 'rest-client'
 gem 'rinku'
 gem 'sanitize'
-gem 'sass'
 gem 'sidekiq'
 gem 'sidekiq-failures'
 gem 'sinatra', require: nil
@@ -179,6 +176,9 @@ group :development do
   gem 'librarian', '>= 0.0.25', require: false
   gem 'annotate'
   gem 'letter_opener'
+
+  gem 'capistrano', '~> 2.0'
+  gem 'capistrano-ext'
 end
 
 
