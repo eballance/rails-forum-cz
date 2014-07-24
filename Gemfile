@@ -134,8 +134,6 @@ gem 'oj'
 gem 'pg', '0.15.1'
 gem 'rake'
 
-gem 'capistrano', '2.13.5'
-
 gem 'rest-client'
 gem 'rinku'
 gem 'sanitize'
@@ -189,6 +187,9 @@ group :development do
   gem 'annotate'
   gem 'letter_opener'
   gem 'foreman', require: false
+  gem 'capistrano', '~> 2.0'
+  gem 'capistrano-ext'
+  gem 'capistrano-sidekiq'
 end
 
 # Gem that enables support for plugins. It is required.
@@ -236,5 +237,3 @@ group :profile do
   # if you need to profile, uncomment out this line
   # gem 'rack-perftools_profiler', require: 'rack/perftools_profiler', platform: :mri_19
 end
-
-gem 'capistrano-sidekiq'

@@ -59,12 +59,14 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
-    capistrano (2.13.5)
+    capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-ext (1.2.1)
+      capistrano (>= 1.0.0)
     capistrano-sidekiq (0.3.0)
       capistrano
       sidekiq
@@ -416,7 +418,8 @@ DEPENDENCIES
   barber
   better_errors
   binding_of_caller
-  capistrano (= 2.13.5)
+  capistrano (~> 2.0)
+  capistrano-ext
   capistrano-sidekiq
   certified
   discourse_plugin!
