@@ -44,10 +44,10 @@ end
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  rank        :integer          default(0), not null
+#  id          :integer          not null, primary key
 #
 # Indexes
 #
 #  cat_featured_threads                                    (category_id,topic_id) UNIQUE
 #  index_category_featured_topics_on_category_id_and_rank  (category_id,rank)
 #
-

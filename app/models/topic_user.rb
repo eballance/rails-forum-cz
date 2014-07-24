@@ -259,9 +259,9 @@ end
 #  total_msecs_viewed       :integer          default(0), not null
 #  cleared_pinned_at        :datetime
 #  unstarred_at             :datetime
+#  id                       :integer          not null, primary key
 #
 # Indexes
 #
 #  index_forum_thread_users_on_forum_thread_id_and_user_id  (topic_id,user_id) UNIQUE
 #
-

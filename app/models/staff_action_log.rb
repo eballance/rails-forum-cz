@@ -24,5 +24,7 @@ end
 #  details        :text
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  context        :string(255)
+#  ip_address     :string(255)
+#  email          :string(255)
 #
-
