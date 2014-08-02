@@ -30,7 +30,8 @@ set :copy_exclude, %w(test .git doc)
 # Symlinks
 set :normal_symlinks,
     [ 'config/database.yml',
-      'config/redis.yml' ]
+      'config/redis.yml',
+      'config/discourse.conf' ]
 
 set :directory_symlinks, {
     'assets' => 'public/assets',
