@@ -42,6 +42,7 @@ set :directory_symlinks, {
 # Miscs
 set :keep_releases, 3
 after "deploy:update", "deploy:cleanup"
+after "deploy:update_symlinks", "deploy:migrate"
 
 set :normalize_asset_timestamps, false
 set(:cw_log_file) { "#{current_path}/log/clockwork.log" }
